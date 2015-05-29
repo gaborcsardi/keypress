@@ -182,7 +182,49 @@ SEXP keypress(){
   ch = _getch();
   buf[0] = (char) ch;
 
-  return mkString(buf);
+  if (ch == 0) {
+    int ch2 = _getch();
+
+    switch (ch2) {
+    case 59: return mkString("f1");
+    case 61: return mkString("f2");
+    case 62: return mkString("f3");
+    case 63: return mkString("f4");
+    case 64: return mkString("f5");
+    case 65: return mkString("f6");
+    case 66: return mkString("f7");
+    case 67: return mkString("f8");
+    case 68: return mkString("f9");
+    case 69: return mkString("f10");
+    default:
+	error("Unknown key pressed");
+	return R_NilValue;
+    }
+
+  } else if (ch == 224) {
+    int ch2 = _getch();
+
+    switch(ch2) {
+    case 71: return mkString("home");
+    case 72: return mkString("up");
+    case 73: return mkString("pageup");
+    case 75: return mkString("left");
+    case 77: return mkString("right");
+    case 79: return mkString("end");
+    case 80: return mkString("down");
+    case 81: return mkString("pagedown");
+    case 82: return mkString("insert");
+    case 83: return mkString("delete");
+    case 133: return mkString("f11");
+    case 134: return mkString("f12");
+    default:
+	error("Unknown key pressed");
+	return R_NilValue;
+    }
+
+  } else {
+    return mkString(buf);
+  }
 }
 
 #endif
