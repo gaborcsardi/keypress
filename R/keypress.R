@@ -45,11 +45,10 @@ keypress <- function() {
 
 has_keypress_support <- function() {
   ## Supported if we have a terminal, and we are not in RStudio,
-  ## not in R.app, not in Rgui, not in Rterm and not in Emacs.
+  ## not in R.app, not in Rgui, and not in Emacs.
   ## Yes, pretty limited.
   isatty(stdin()) &&
     Sys.getenv("RSTUDIO") != 1 &&
     Sys.getenv("R_GUI_APP_VERSION") == "" &&
-    .Platform$GUI != "Rgui" &&
-    .Platform$GUI != "RTerm"
+    .Platform$GUI != "Rgui"
 }

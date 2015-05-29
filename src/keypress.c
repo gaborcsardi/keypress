@@ -1,4 +1,6 @@
 
+#ifndef WIN32
+
 #include <unistd.h>
 #include <termios.h>
 #include <string.h>
@@ -161,3 +163,26 @@ SEXP keypress() {
     return mkString(buf);
   }
 }
+
+#endif
+
+/* -------------------------------------------------------------- */
+
+#ifdef WIN32
+
+#include <conio.h>
+#include <ctype.h>
+
+#include <Rinternals.h>
+
+SEXP keypress(){
+  int ch;
+  char buf[2] = { 0, 0 };
+
+  ch = _getch();
+  buf[0] = (char) ch;
+
+  return mkString(buf);
+}
+
+#endif
