@@ -50,5 +50,6 @@ has_keypress_support <- function() {
   isatty(stdin()) &&
     Sys.getenv("RSTUDIO") != 1 &&
     Sys.getenv("R_GUI_APP_VERSION") == "" &&
-    .Platform$GUI != "Rgui"
+    .Platform$GUI != "Rgui" &&
+    ! identical(getOption("STERM"), "iESS")
 }
