@@ -9,7 +9,7 @@
 #'   \item Arrow keys: \sQuote{up}, \sQuote{down}, \sQuote{right},
 #'     \sQuote{left}.
 #'   \item Function keys: from \sQuote{f1} to \sQuote{f12}.
-#'   \item Others: \sQuote{clear}, \sQuote{end}, \sQuote{home},
+#'   \item Others: sQuote{home}, \sQuote{end},
 #'     \sQuote{insert}, \sQuote{delete}, \sQuote{pageup},
 #'     \sQuote{pagedown}.
 #' }
