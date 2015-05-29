@@ -9,7 +9,7 @@
 #'   \item Arrow keys: \sQuote{up}, \sQuote{down}, \sQuote{right},
 #'     \sQuote{left}.
 #'   \item Function keys: from \sQuote{f1} to \sQuote{f12}.
-#'   \item Others: \sQuote{clear}, \sQuote{end}, \sQuote{home},
+#'   \item Others: sQuote{home}, \sQuote{end},
 #'     \sQuote{insert}, \sQuote{delete}, \sQuote{pageup},
 #'     \sQuote{pagedown}.
 #' }
@@ -45,11 +45,10 @@ keypress <- function() {
 
 has_keypress_support <- function() {
   ## Supported if we have a terminal, and we are not in RStudio,
-  ## not in R.app, not in Rgui, not in Rterm and not in Emacs.
+  ## not in R.app, not in Rgui, and not in Emacs.
   ## Yes, pretty limited.
   isatty(stdin()) &&
     Sys.getenv("RSTUDIO") != 1 &&
     Sys.getenv("R_GUI_APP_VERSION") == "" &&
-    .Platform$GUI != "Rgui" &&
-    .Platform$GUI != "RTerm"
+    .Platform$GUI != "Rgui"
 }
