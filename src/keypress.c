@@ -187,15 +187,15 @@ SEXP keypress(){
 
     switch (ch2) {
     case 59: return mkString("f1");
-    case 61: return mkString("f2");
-    case 62: return mkString("f3");
-    case 63: return mkString("f4");
-    case 64: return mkString("f5");
-    case 65: return mkString("f6");
-    case 66: return mkString("f7");
-    case 67: return mkString("f8");
-    case 68: return mkString("f9");
-    case 69: return mkString("f10");
+    case 60: return mkString("f2");
+    case 61: return mkString("f3");
+    case 62: return mkString("f4");
+    case 63: return mkString("f5");
+    case 64: return mkString("f6");
+    case 65: return mkString("f7");
+    case 66: return mkString("f8");
+    case 67: return mkString("f9");
+    case 68: return mkString("f10");
     default:
 	error("Unknown key pressed");
 	return R_NilValue;
