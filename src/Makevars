@@ -1,0 +1,4 @@
+
+all: $(SHLIB)
+
+OBJECTS: keyress.o

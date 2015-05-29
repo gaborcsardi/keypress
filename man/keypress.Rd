@@ -28,7 +28,6 @@ The following special keys are supported:
 \dontrun{
 x <- keypress()
 cat("You pressed key", x, "\\n")
-
 }
 }
 \seealso{
