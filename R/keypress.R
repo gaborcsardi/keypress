@@ -26,7 +26,7 @@
 #' }
 
 keypress <- function() {
-  if (!has_keypress_support) {
+  if (!has_keypress_support()) {
     stop("Your platform/terminal does not support keypress")
   }
   .Call("keypress", PACKAGE = "keypress")
