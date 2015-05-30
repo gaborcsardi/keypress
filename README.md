@@ -32,7 +32,7 @@ This is unfortunately impossible to do in
 - if `stdin()` is not a terminal.
 
 In other words, it pretty much only works interactively, in a terminal.
-The terminal can be pretty much any Linux, OSX, other Unix terminal or
+The terminal can be any Linux, OSX, or other Unix terminal or
 Windows cmd (also called RTerm in R).
 
 ## Keys
