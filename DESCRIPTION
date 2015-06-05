@@ -1,11 +1,12 @@
 Package: keypress
-Title: Wait for a Keypress in a Terminal
+Title: Wait for a Key Press in a Terminal
 Version: 1.0.0
 Author: Gabor Csardi [aut, cre]
 Maintainer: Gabor Csardi <csardi.gabor@gmail.com>
-Description: Wait for a single keypress at the R prompt.
-    This works at the R terminals, but does not currently work
-    in the Windows, the OSX GUI, in Emacs or in R Studio.
+Description: Wait for a single key press at the 'R' prompt.
+    This works in terminals, but does not currently work
+    in the 'Windows' 'GUI', the 'OSX' 'GUI', in 'Emacs'
+    or in 'R Studio'.
 License: MIT + file LICENSE
 URL: https://github.com/gaborcsardi/keypress
 BugReports: https://github.com/gaborcsardi/keypress/issues
