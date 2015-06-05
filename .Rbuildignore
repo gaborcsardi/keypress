@@ -1,2 +1,6 @@
 ^tags$
 ^keypress.Rproj$
+^README.md$
+^NEWS.md$
+^.travis.yml$
+^appveyor.yml$
