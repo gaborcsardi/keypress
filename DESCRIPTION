@@ -5,8 +5,10 @@ Author: Gabor Csardi [aut, cre]
 Maintainer: Gabor Csardi <csardi.gabor@gmail.com>
 Description: Wait for a single key press at the 'R' prompt.
     This works in terminals, but does not currently work
-    in the 'Windows' 'GUI', the 'OSX' 'GUI', in 'Emacs'
-    or in 'R Studio'.
+    in the 'Windows' 'GUI', the 'OS X' 'GUI' ('R.app'),
+    in 'Emacs' 'ESS', in an 'Emacs' shell buffer or in
+    'R Studio'. In these cases 'keypress' stops with an
+    error message.
 License: MIT + file LICENSE
 URL: https://github.com/gaborcsardi/keypress
 BugReports: https://github.com/gaborcsardi/keypress/issues
