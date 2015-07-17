@@ -1,5 +1,5 @@
 
-#' Wait for a single keypress at the terminal
+#' Read a single keypress at the terminal
 #'
 #' It currently only works at Linux/Unix and OSX terminals,
 #' see \code{\link{has_keypress_support}}.
@@ -14,7 +14,10 @@
 #'     \sQuote{pagedown}.
 #' }
 #'
-#' @return The key pressed, a character scalar.
+#' @param block Whether to wait for a key press, if there is none
+#'   available now.
+#' @return The key pressed, a character scalar. For non-blocking reads
+#'   NA is returned if no keys are available.
 #'
 #' @family keypress
 #' @useDynLib keypress
@@ -25,11 +28,13 @@
 #' cat("You pressed key", x, "\n")
 #' }
 
-keypress <- function() {
+keypress <- function(block = TRUE) {
   if (!has_keypress_support()) {
     stop("Your platform/terminal does not support keypress")
   }
-  .Call("keypress", PACKAGE = "keypress")
+  block <- as.logical(block)
+  if (length(block) != 1) stop("'block' must be a logical scalar")
+  .Call("keypress", block, PACKAGE = "keypress")
 }
 
 #' Check if the current platform/terminal supports reading

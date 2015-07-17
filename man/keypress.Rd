@@ -2,12 +2,17 @@
 % Please edit documentation in R/keypress.R
 \name{keypress}
 \alias{keypress}
-\title{Wait for a single keypress at the terminal}
+\title{Read a single keypress at the terminal}
 \usage{
-keypress()
+keypress(block = TRUE)
+}
+\arguments{
+\item{block}{Whether to wait for a key press, if there is none
+available now.}
 }
 \value{
-The key pressed, a character scalar.
+The key pressed, a character scalar. For non-blocking reads
+  NA is returned if no keys are available.
 }
 \description{
 It currently only works at Linux/Unix and OSX terminals,

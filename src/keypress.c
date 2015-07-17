@@ -115,9 +115,11 @@ SEXP function_key(const char *buf, size_t buf_size) {
   return R_NilValue;
 }
 
-SEXP keypress() {
+SEXP keypress(SEXP s_block) {
+  int block = LOGICAL(s_block)[0];
   char buf[11] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
   struct termios old = { 0 };
+  int flags = fcntl(0, F_GETFL, 0);
 
   if (tcgetattr(0, &old) < 0) {
     error("Cannot query terminal flags");
@@ -132,8 +134,20 @@ SEXP keypress() {
     error("Cannot set canonical mode");
   }
 
+  if (! block) {
+    fcntl(0, F_SETFL, flags | O_NONBLOCK);
+  }
+
   if (read(0, buf, 1) < 0) {
-    error("Cannot read key");
+    fcntl(0, F_SETFL, flags);
+    old.c_lflag |= ICANON;
+    old.c_lflag |= ECHO;
+    tcsetattr(0, TCSADRAIN, &old);
+    if (block) {
+      error("Cannot read key");
+    } else {
+      return ScalarString(R_NaString);
+    }
   }
 
   /* If an escape sequence, then we read the rest.
@@ -156,6 +170,8 @@ SEXP keypress() {
       read(0, buf + 3, 2);
     }
   }
+
+  fcntl(0, F_SETFL, flags);
 
   old.c_lflag |= ICANON;
   old.c_lflag |= ECHO;
@@ -184,9 +200,18 @@ SEXP keypress() {
 
 #include <Rinternals.h>
 
-SEXP keypress(){
+SEXP keypress(SEXP s_block){
+  int block = LOGICAL(s_block)[0];
   int ch;
   char buf[2] = { 0, 0 };
+
+  if (!block) {
+    if (_kbhit()) {
+      ch = _getch();
+    } else {
+      return ScalarString(R_NaString);
+    }
+  }
 
   ch = _getch();
   buf[0] = (char) ch;
