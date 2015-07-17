@@ -142,10 +142,19 @@ SEXP keypress() {
      we only read the first character. */
 
   if (buf[0] == '\033') {
-    int flags = fcntl(0, F_GETFL, 0);
-    fcntl(0, F_SETFL, flags | O_NONBLOCK);
-    read(0, buf + 1, sizeof(buf) - 2L);
-    fcntl(0, F_SETFL, flags);
+    /* At least two more characters are needed */
+    read(0, buf + 1, 2);
+    if (buf[1] == '[' && buf[2] >= '1' && buf[2] <= '6') {
+      /* A third one is needed, too */
+      read(0, buf + 3, 1);
+      if (buf[3] >= '0' && buf[3] <= '9') {
+	/* A fourth one is needed, too */
+	read(0, buf + 4, 1);
+      }
+    } else if (buf[1] == '[' && buf[2] == '[') {
+      /* Two more is needed if it starts with [[ */
+      read(0, buf + 3, 2);
+    }
   }
 
   old.c_lflag |= ICANON;
