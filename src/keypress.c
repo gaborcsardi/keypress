@@ -156,16 +156,20 @@ SEXP keypress(SEXP s_block) {
      we only read the first character. */
 
   if (buf[0] == '\033') {
-    /* At least two more characters are needed */
-    read(0, buf + 1, 2);
-    if (buf[1] == '[' && buf[2] >= '1' && buf[2] <= '6') {
+    /* At least two more characters are needed. We do a non-blocking
+       read to detect if the user only pressed ESC */
+    ssize_t chars = 0;
+    fcntl(0, F_SETFL, flags | O_NONBLOCK);
+    chars = read(0, buf + 1, 2);
+    fcntl(0, F_SETFL, flags);
+    if (chars == 2 && buf[1] == '[' && buf[2] >= '1' && buf[2] <= '6') {
       /* A third one is needed, too */
       read(0, buf + 3, 1);
       if (buf[3] >= '0' && buf[3] <= '9') {
 	/* A fourth one is needed, too */
 	read(0, buf + 4, 1);
       }
-    } else if (buf[1] == '[' && buf[2] == '[') {
+    } else if (chars == 2 && buf[1] == '[' && buf[2] == '[') {
       /* Two more is needed if it starts with [[ */
       read(0, buf + 3, 2);
     }
