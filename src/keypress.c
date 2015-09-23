@@ -6,7 +6,7 @@
 #include <string.h>
 #include <fcntl.h>
 
-#include <Rinternals.h>
+#include "keypress.h"
 
 SEXP function_key(const char *buf, size_t buf_size) {
   buf++;			/* escape character */
