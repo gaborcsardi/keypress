@@ -1,12 +1,41 @@
 
+#include "keypress.h"
+
+SEXP single_char(const char *buf) {
+
+  int ch = buf[0];
+
+  switch(ch) {
+  case   1: return mkString("ctrl-a");
+  case   2: return mkString("ctrl-b");
+  case   3: return mkString("ctrl-c");
+  case   4: return mkString("ctrl-d");
+  case   5: return mkString("ctrl-e");
+  case   6: return mkString("ctrl-f");
+  case   8: return mkString("ctrl-h");
+  case   9: return mkString("tab");
+  case  10: return mkString("enter");
+  case  11: return mkString("ctrl-k");
+  case  12: return mkString("ctrl-l");
+  case  13: return mkString("enter");
+  case  14: return mkString("ctrl-n");
+  case  16: return mkString("ctrl-p");
+  case  20: return mkString("ctrl-t");
+  case  21: return mkString("ctrl-u");
+  case  23: return mkString("ctrl-w");
+  case  27: return mkString("escape");
+  case 127: return mkString("backspace");
+  default:
+    return mkString(buf);
+  }
+}
+
 #ifndef WIN32
 
 #include <unistd.h>
 #include <termios.h>
 #include <string.h>
 #include <fcntl.h>
-
-#include "keypress.h"
 
 SEXP function_key(const char *buf, size_t buf_size) {
   buf++;			/* escape character */
@@ -108,6 +137,9 @@ SEXP function_key(const char *buf, size_t buf_size) {
   } else if (!strncmp(buf, "[14~", buf_size)) {
     return mkString("f4");
 
+  } else if (strlen(buf) == 0) {
+    return mkString("escape");
+
   } else {
     return mkString(buf - 1);
   }
@@ -189,7 +221,7 @@ SEXP keypress(SEXP s_block) {
     return function_key(buf, sizeof(buf));
   }  else {
     /* Single character */
-    return mkString(buf);
+    return single_char(buf);
   }
 }
 
@@ -220,7 +252,10 @@ SEXP keypress(SEXP s_block){
   ch = _getch();
   buf[0] = (char) ch;
 
-  if (ch == 0) {
+  if (ch != 0 && ch != 224) {
+    return single_char(buf);
+
+  } else if (ch == 0) {
     int ch2 = _getch();
 
     switch (ch2) {
