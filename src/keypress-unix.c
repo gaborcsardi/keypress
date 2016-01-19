@@ -7,146 +7,142 @@
 #include <string.h>
 #include <fcntl.h>
 
-SEXP single_char(const char *buf) {
+keypress_key_t single_char(const char *buf) {
 
   int ch = buf[0];
 
   switch(ch) {
-  case   1: return mkString("ctrl-a");
-  case   2: return mkString("ctrl-b");
-  case   3: return mkString("ctrl-c");
-  case   4: return mkString("ctrl-d");
-  case   5: return mkString("ctrl-e");
-  case   6: return mkString("ctrl-f");
-  case   8: return mkString("ctrl-h");
-  case   9: return mkString("tab");
-  case  10: return mkString("enter");
-  case  11: return mkString("ctrl-k");
-  case  12: return mkString("ctrl-l");
-  case  13: return mkString("enter");
-  case  14: return mkString("ctrl-n");
-  case  16: return mkString("ctrl-p");
-  case  20: return mkString("ctrl-t");
-  case  21: return mkString("ctrl-u");
-  case  23: return mkString("ctrl-w");
-  case  27: return mkString("escape");
-  case 127: return mkString("backspace");
-  default : return ScalarString(mkCharCE(buf, CE_UTF8));
+  case   1: return keypress_special(KEYPRESS_CTRL_A);
+  case   2: return keypress_special(KEYPRESS_CTRL_B);
+  case   3: return keypress_special(KEYPRESS_CTRL_C);
+  case   4: return keypress_special(KEYPRESS_CTRL_D);
+  case   5: return keypress_special(KEYPRESS_CTRL_E);
+  case   6: return keypress_special(KEYPRESS_CTRL_F);
+  case   8: return keypress_special(KEYPRESS_CTRL_H);
+  case   9: return keypress_special(KEYPRESS_TAB);
+  case  10: return keypress_special(KEYPRESS_ENTER);
+  case  11: return keypress_special(KEYPRESS_CTRL_K);
+  case  12: return keypress_special(KEYPRESS_CTRL_L);
+  case  13: return keypress_special(KEYPRESS_ENTER);
+  case  14: return keypress_special(KEYPRESS_CTRL_N);
+  case  16: return keypress_special(KEYPRESS_CTRL_P);
+  case  20: return keypress_special(KEYPRESS_CTRL_T);
+  case  21: return keypress_special(KEYPRESS_CTRL_U);
+  case  23: return keypress_special(KEYPRESS_CTRL_W);
+  case  27: return keypress_special(KEYPRESS_ESCAPE);
+  case 127: return keypress_special(KEYPRESS_BACKSPACE);
+  default : return keypress_utf8(buf);
   }
 }
 
-SEXP function_key(const char *buf, size_t buf_size) {
+keypress_key_t function_key(const char *buf, size_t buf_size) {
   buf++;			/* escape character */
   buf_size -= 2;		/* minus first escape and trailing zero */
 
   /* xterm */
   if (! strncmp(buf, "[A", buf_size)) {
-    return mkString("up");
+    return keypress_special(KEYPRESS_UP);
   } else if (!strncmp(buf, "[B", buf_size)) {
-    return mkString("down");
+    return keypress_special(KEYPRESS_DOWN);
   } else if (!strncmp(buf, "[C", buf_size)) {
-    return mkString("right");
+    return keypress_special(KEYPRESS_RIGHT);
   } else if (!strncmp(buf, "[D", buf_size)) {
-    return mkString("left");
-  } else if (!strncmp(buf, "[E", buf_size)) {
-    return mkString("clear");
+    return keypress_special(KEYPRESS_LEFT);
   } else if (!strncmp(buf, "[F", buf_size)) {
-    return mkString("end");
+    return keypress_special(KEYPRESS_END);
   } else if (!strncmp(buf, "[H", buf_size)) {
-    return mkString("home");
+    return keypress_special(KEYPRESS_HOME);
 
     /* xterm/gnome */
   } else if (!strncmp(buf, "OA", buf_size)) {
-    return mkString("up");
+    return keypress_special(KEYPRESS_UP);
   } else if (!strncmp(buf, "OB", buf_size)) {
-    return mkString("down");
+    return keypress_special(KEYPRESS_DOWN);
   } else if (!strncmp(buf, "OC", buf_size)) {
-    return mkString("right");
+    return keypress_special(KEYPRESS_RIGHT);
   } else if (!strncmp(buf, "OD", buf_size)) {
-    return mkString("left");
-  } else if (!strncmp(buf, "OE", buf_size)) {
-    return mkString("clear");
+    return keypress_special(KEYPRESS_LEFT);
   } else if (!strncmp(buf, "OF", buf_size)) {
-    return mkString("end");
+    return keypress_special(KEYPRESS_END);
   } else if (!strncmp(buf, "OH", buf_size)) {
-    return mkString("home");
+    return keypress_special(KEYPRESS_HOME);
 
     /* xterm/rxvt */
   } else if (!strncmp(buf, "[1~", buf_size)) {
-    return mkString("home");
+    return keypress_special(KEYPRESS_HOME);
   } else if (!strncmp(buf, "[2~", buf_size)) {
-    return mkString("insert");
+    return keypress_special(KEYPRESS_INSERT);
   } else if (!strncmp(buf, "[3~", buf_size)) {
-    return mkString("delete");
+    return keypress_special(KEYPRESS_DELETE);
   } else if (!strncmp(buf, "[4~", buf_size)) {
-    return mkString("end");
+    return keypress_special(KEYPRESS_END);
   } else if (!strncmp(buf, "[5~", buf_size)) {
-    return mkString("pageup");
+    return keypress_special(KEYPRESS_PAGEUP);
   } else if (!strncmp(buf, "[6~", buf_size)) {
-    return mkString("pagedown");
+    return keypress_special(KEYPRESS_PAGEDOWN);
 
     /* putty */
   } else if (!strncmp(buf, "[[5~", buf_size)) {
-    return mkString("pageup");
+    return keypress_special(KEYPRESS_PAGEUP);
   } else if (!strncmp(buf, "[[6~", buf_size)) {
-    return mkString("pagedown");
+    return keypress_special(KEYPRESS_PAGEDOWN);
 
     /* rxvt */
   } else if (!strncmp(buf, "[[7~", buf_size)) {
-    return mkString("home");
+    return keypress_special(KEYPRESS_HOME);
   } else if (!strncmp(buf, "[[8~", buf_size)) {
-    return mkString("end");
+    return keypress_special(KEYPRESS_END);
 
     /* xterm/gnome */
   } else if (!strncmp(buf, "OP", buf_size)) {
-    return mkString("f1");
+    return keypress_special(KEYPRESS_F1);
   } else if (!strncmp(buf, "OQ", buf_size)) {
-    return mkString("f2");
+    return keypress_special(KEYPRESS_F2);
   } else if (!strncmp(buf, "OR", buf_size)) {
-    return mkString("f3");
+    return keypress_special(KEYPRESS_F3);
   } else if (!strncmp(buf, "OS", buf_size)) {
-    return mkString("f4");
+    return keypress_special(KEYPRESS_F4);
 
     /* common */
   } else if (!strncmp(buf, "[15~", buf_size)) {
-    return mkString("f5");
+    return keypress_special(KEYPRESS_F5);
   } else if (!strncmp(buf, "[17~", buf_size)) {
-    return mkString("f6");
+    return keypress_special(KEYPRESS_F6);
   } else if (!strncmp(buf, "[18~", buf_size)) {
-    return mkString("f7");
+    return keypress_special(KEYPRESS_F7);
   } else if (!strncmp(buf, "[19~", buf_size)) {
-    return mkString("f8");
+    return keypress_special(KEYPRESS_F8);
   } else if (!strncmp(buf, "[20~", buf_size)) {
-    return mkString("f9");
+    return keypress_special(KEYPRESS_F9);
   } else if (!strncmp(buf, "[21~", buf_size)) {
-    return mkString("f10");
+    return keypress_special(KEYPRESS_F10);
   } else if (!strncmp(buf, "[23~", buf_size)) {
-    return mkString("f11");
+    return keypress_special(KEYPRESS_F11);
   } else if (!strncmp(buf, "[24~", buf_size)) {
-    return mkString("f12");
+    return keypress_special(KEYPRESS_F12);
 
     /* xterm / rxvt */
   } else if (!strncmp(buf, "[11~", buf_size)) {
-    return mkString("f1");
+    return keypress_special(KEYPRESS_F1);
   } else if (!strncmp(buf, "[12~", buf_size)) {
-    return mkString("f2");
+    return keypress_special(KEYPRESS_F2);
   } else if (!strncmp(buf, "[13~", buf_size)) {
-    return mkString("f3");
+    return keypress_special(KEYPRESS_F3);
   } else if (!strncmp(buf, "[14~", buf_size)) {
-    return mkString("f4");
+    return keypress_special(KEYPRESS_F4);
 
   } else if (strlen(buf) == 0) {
-    return mkString("escape");
+    return keypress_special(KEYPRESS_ESCAPE);
 
   } else {
-    return mkString(buf - 1);
+    return keypress_utf8(buf - 1);
   }
 
-  return R_NilValue;
+  return keypress_special(KEYPRESS_UNKNOWN);
 }
 
-SEXP keypress(SEXP s_block) {
-  int block = LOGICAL(s_block)[0];
+keypress_key_t keypress_read(int block) {
+
   char buf[11] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
   struct termios old = { 0 };
   int flags = fcntl(0, F_GETFL, 0);
@@ -176,7 +172,7 @@ SEXP keypress(SEXP s_block) {
     if (block) {
       error("Cannot read key");
     } else {
-      return ScalarString(R_NaString);
+      return keypress_special(KEYPRESS_NONE);
     }
   }
 
