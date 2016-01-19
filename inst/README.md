@@ -42,13 +42,18 @@ Windows cmd (also called RTerm in R).
 
 ## Keys
 
-Note that not all keys are supported, in particular the modifiers (ctrl,
-alt, etc.) are not. Supported special keys are:
+Note that not all keys are supported, in particular most of the modifiers
+(alt, shift, etc.) are not. Supported special keys are:
 - Arrow keys: `up`, `down`, `right`, `left`. Available on most keyboards.
 - Function keys: from `f1` to `f12`. Available on most keyboards.
-- Others: `home`, `end`, `insert`, `delete`, `pageup`, `pagedown`. Note
-  that these are not available on OSX keyboards, so it is not a good
-  idea to use them.
+- Other special keys: `enter`, `backspace`, `escape`, `tab`.
+- Some key combinations with the `CONTROL` key: `ctrl-a`, `ctrl-b`,
+  `ctrl-c`, `ctrl-d`, `ctrl-e`, `ctrl-f`, `ctrl-h`, `ctrl-k`, `ctrl-l`,
+  `ctrl-n`, `ctrl-p`, `ctrl-t`, `ctrl-u`, `ctrl-w`.
+- Keys typically not availale on OS X keyboards: `home`, `end`, `insert`,
+  `delete`, `pageup`, `pagedown`.
+- On Linux and OS X Unicode characters are supported, but not (yet) on
+  Windows. Unicode characters are returned UTF-8 encoded.
 
 ## License
 
