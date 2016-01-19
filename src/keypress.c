@@ -1,6 +1,13 @@
 
 #include "keypress.h"
 
+#ifndef WIN32
+
+#include <unistd.h>
+#include <termios.h>
+#include <string.h>
+#include <fcntl.h>
+
 SEXP single_char(const char *buf) {
 
   int ch = buf[0];
@@ -25,17 +32,9 @@ SEXP single_char(const char *buf) {
   case  23: return mkString("ctrl-w");
   case  27: return mkString("escape");
   case 127: return mkString("backspace");
-  default:
-    return mkString(buf);
+  default : return ScalarString(mkCharCE(buf, CE_UTF8));
   }
 }
-
-#ifndef WIN32
-
-#include <unistd.h>
-#include <termios.h>
-#include <string.h>
-#include <fcntl.h>
 
 SEXP function_key(const char *buf, size_t buf_size) {
   buf++;			/* escape character */
@@ -207,6 +206,19 @@ SEXP keypress(SEXP s_block) {
     }
   }
 
+  /* For UTF8 characters, we might need to read more bytes
+     We don't handle errors here, if there are not enough bytes
+     to read, we'll just return whatever is available. */
+  if ((buf[0] & 0x80) == 0) {
+    /* Nothing to do */
+  } else if ((buf[0] & 0xe0) == 0xc0) {
+    read(0, &buf[1], 1);
+  } else if ((buf[0] & 0xf0) == 0xe0) {
+    read(0, &buf[1], 2);
+  } else if ((buf[0] & 0xf8) == 0xf0) {
+    read(0, &buf[1], 3);
+  }
+
   fcntl(0, F_SETFL, flags);
 
   old.c_lflag |= ICANON;
@@ -235,6 +247,35 @@ SEXP keypress(SEXP s_block) {
 #include <ctype.h>
 
 #include <Rinternals.h>
+
+SEXP single_char(const char *buf) {
+
+  int ch = buf[0];
+
+  switch(ch) {
+  case   1: return mkString("ctrl-a");
+  case   2: return mkString("ctrl-b");
+  case   3: return mkString("ctrl-c");
+  case   4: return mkString("ctrl-d");
+  case   5: return mkString("ctrl-e");
+  case   6: return mkString("ctrl-f");
+  case   8: return mkString("ctrl-h");
+  case   9: return mkString("tab");
+  case  10: return mkString("enter");
+  case  11: return mkString("ctrl-k");
+  case  12: return mkString("ctrl-l");
+  case  13: return mkString("enter");
+  case  14: return mkString("ctrl-n");
+  case  16: return mkString("ctrl-p");
+  case  20: return mkString("ctrl-t");
+  case  21: return mkString("ctrl-u");
+  case  23: return mkString("ctrl-w");
+  case  27: return mkString("escape");
+  case 127: return mkString("backspace");
+  default:
+    return mkString(buf);
+  }
+}
 
 SEXP keypress(SEXP s_block){
   int block = LOGICAL(s_block)[0];
