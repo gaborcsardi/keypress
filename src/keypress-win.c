@@ -72,6 +72,7 @@ SEXP getWinChar() {
 	case 5: return mkString("ctrl-e");
 	case 6: return mkString("ctrl-f");
 	case 8: return mkString("ctrl-h");
+	case 9: return mkString("tab");
 	case 11: return mkString("ctrl-k");
 	case 12: return mkString("ctrl-l");
 	case 14: return mkString("ctrl-n");
