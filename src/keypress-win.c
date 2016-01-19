@@ -80,7 +80,7 @@ SEXP getWinChar() {
 	case 21: return mkString("ctrl-u");
 	case 22: return mkString("ctrl-w");
 	}
-      } else {
+      } else if (buf[0]) {
 	return mkString(buf);
       }
     }
