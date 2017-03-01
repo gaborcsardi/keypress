@@ -12,4 +12,4 @@ Description: Wait for a single key press at the 'R' prompt.
 License: MIT + file LICENSE
 URL: https://github.com/gaborcsardi/keypress
 BugReports: https://github.com/gaborcsardi/keypress/issues
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1

@@ -2,4 +2,4 @@
 
 export(has_keypress_support)
 export(keypress)
-useDynLib(keypress)
+useDynLib(keypress, .registration = TRUE, .fixes = "C_")

@@ -21,4 +21,3 @@ has_keypress_support()
 \seealso{
 Other keypress: \code{\link{keypress}}
 }
-

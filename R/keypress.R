@@ -26,7 +26,7 @@
 #'   NA is returned if no keys are available.
 #'
 #' @family keypress
-#' @useDynLib keypress
+#' @useDynLib keypress, .registration = TRUE, .fixes = "C_"
 #' @export
 #' @examples
 #' \dontrun{
@@ -40,7 +40,7 @@ keypress <- function(block = TRUE) {
   }
   block <- as.logical(block)
   if (length(block) != 1) stop("'block' must be a logical scalar")
-  .Call("keypress", block, PACKAGE = "keypress")
+  .Call(C_keypress, block)
 }
 
 #' Check if the current platform/terminal supports reading

@@ -44,4 +44,3 @@ cat("You pressed key", x, "\\n")
 \seealso{
 Other keypress: \code{\link{has_keypress_support}}
 }
-
