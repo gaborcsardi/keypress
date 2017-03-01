@@ -1,4 +1,7 @@
 
+/* Avoid warning about empty compilation unit. */
+void keypress_win_dummy() { }
+
 #ifdef WIN32
 
 #include "keypress.h"
