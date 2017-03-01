@@ -1,4 +1,10 @@
 
+# 1.1.1
+
+- Use native routine registration to avoid R CMD check warnings.
+- Make sure compilation units are not empty, to avoid another R CMD check
+  warning.
+
 # 1.1.0
 
 - Non-blocking reads.

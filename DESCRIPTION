@@ -1,6 +1,6 @@
 Package: keypress
 Title: Wait for a Key Press in a Terminal
-Version: 1.1.0
+Version: 1.1.1
 Author: Gabor Csardi [aut, cre], Jon Griffiths [aut]
 Maintainer: Gabor Csardi <csardi.gabor@gmail.com>
 Description: Wait for a single key press at the 'R' prompt.
