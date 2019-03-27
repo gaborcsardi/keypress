@@ -11,7 +11,7 @@
 ## Installation
 
 ```r
-devtools::install_github("gaborcsardi/keypress")
+install.packages("keypress")
 ```
 
 ## Usage
