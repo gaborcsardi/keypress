@@ -4,6 +4,7 @@ void keypress_unix_dummy() { }
 
 #ifndef _WIN32
 
+#include "errors.h"
 #include "keypress.h"
 #include <unistd.h>
 #include <termios.h>
@@ -151,7 +152,7 @@ keypress_key_t keypress_read(int block) {
   int flags = fcntl(0, F_GETFL, 0);
 
   if (tcgetattr(0, &old) < 0) {
-    error("Cannot query terminal flags");
+    R_THROW_SYSTEM_ERROR("Cannot query terminal flags");
   }
 
   old.c_lflag &= ~ICANON;
@@ -160,20 +161,24 @@ keypress_key_t keypress_read(int block) {
   old.c_cc[VTIME] = 0;
 
   if (tcsetattr(0, TCSANOW, &old) < 0) {
-    error("Cannot set canonical mode");
+    R_THROW_SYSTEM_ERROR("Cannot set canonical mode");
   }
 
   if (! block) {
-    fcntl(0, F_SETFL, flags | O_NONBLOCK);
+    if (fcntl(0, F_SETFL, flags | O_NONBLOCK) == -1) {
+      R_THROW_SYSTEM_ERROR("Cannot set terminal to non-blocking");
+    }
   }
 
   if (read(0, buf, 1) < 0) {
-    fcntl(0, F_SETFL, flags);
+    if (fcntl(0, F_SETFL, flags) == -1) {
+      R_THROW_SYSTEM_ERROR("Cannot set terminal flags");
+    }
     old.c_lflag |= ICANON;
     old.c_lflag |= ECHO;
     tcsetattr(0, TCSADRAIN, &old);
     if (block) {
-      error("Cannot read key");
+      R_THROW_SYSTEM_ERROR("Cannot read key");
     } else {
       return keypress_special(KEYPRESS_NONE);
     }
@@ -188,19 +193,29 @@ keypress_key_t keypress_read(int block) {
     /* At least two more characters are needed. We do a non-blocking
        read to detect if the user only pressed ESC */
     ssize_t chars = 0;
-    fcntl(0, F_SETFL, flags | O_NONBLOCK);
+    if (fcntl(0, F_SETFL, flags | O_NONBLOCK) == -1) {
+      R_THROW_SYSTEM_ERROR("Cannot set terminal flags");
+    }
     chars = read(0, buf + 1, 2);
-    fcntl(0, F_SETFL, flags);
+    if (fcntl(0, F_SETFL, flags) == -1) {
+      R_THROW_SYSTEM_ERROR("Cannot set terminal flags");
+    }
     if (chars == 2 && buf[1] == '[' && buf[2] >= '1' && buf[2] <= '6') {
       /* A third one is needed, too */
-      read(0, buf + 3, 1);
+      if (read(0, buf + 3, 1) < 0) {
+        R_THROW_SYSTEM_ERROR("Cannot read from terminal");
+      }
       if (buf[3] >= '0' && buf[3] <= '9') {
 	/* A fourth one is needed, too */
-	read(0, buf + 4, 1);
+	if (read(0, buf + 4, 1) < 0) {
+          R_THROW_SYSTEM_ERROR("Cannot read from terminal");
+        }
       }
     } else if (chars == 2 && buf[1] == '[' && buf[2] == '[') {
       /* Two more is needed if it starts with [[ */
-      read(0, buf + 3, 2);
+      if (read(0, buf + 3, 2) < 0) {
+        R_THROW_SYSTEM_ERROR("Cannot read from terminal");
+      }
     }
   }
 
@@ -210,20 +225,28 @@ keypress_key_t keypress_read(int block) {
   if ((buf[0] & 0x80) == 0) {
     /* Nothing to do */
   } else if ((buf[0] & 0xe0) == 0xc0) {
-    read(0, &buf[1], 1);
+    if (read(0, &buf[1], 1) < 0) {
+      R_THROW_SYSTEM_ERROR("Cannot read from terminal");
+    }
   } else if ((buf[0] & 0xf0) == 0xe0) {
-    read(0, &buf[1], 2);
+    if (read(0, &buf[1], 2) < 0) {
+      R_THROW_SYSTEM_ERROR("Cannot read from terminal");
+    }
   } else if ((buf[0] & 0xf8) == 0xf0) {
-    read(0, &buf[1], 3);
+    if (read(0, &buf[1], 3) < 0) {
+      R_THROW_SYSTEM_ERROR("Cannot read from terminal");
+    }
   }
 
-  fcntl(0, F_SETFL, flags);
+  if (fcntl(0, F_SETFL, flags) == -1) {
+    R_THROW_SYSTEM_ERROR("Cannot set terminal flags");
+  }
 
   old.c_lflag |= ICANON;
   old.c_lflag |= ECHO;
 
   if (tcsetattr(0, TCSADRAIN, &old) < 0) {
-    error("Cannot reset terminal flags");
+    R_THROW_SYSTEM_ERROR("Cannot reset terminal flags");
   }
 
   if (buf[0] == '\033') {

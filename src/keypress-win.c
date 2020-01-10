@@ -4,6 +4,7 @@ void keypress_win_dummy() { }
 
 #ifdef WIN32
 
+#include "errors.h"
 #include "keypress.h"
 #include <windows.h>
 
@@ -11,8 +12,17 @@ static HANDLE console_in, console_out;
 
 static int enableRawMode() {
   if (!console_in) {
-    console_in = GetStdHandle(STD_INPUT_HANDLE);
-    console_out = GetStdHandle(STD_OUTPUT_HANDLE);
+    HANDLE hin, hout;
+    hin = GetStdHandle(STD_INPUT_HANDLE);
+    if (hin == INVALID_HANDLE_VALUE) {
+      R_THROW_SYSTEM_ERROR("Cannot get standard input handle");
+    }
+    hout = GetStdHandle(STD_OUTPUT_HANDLE);
+    if (hout == INVALID_HANDLE_VALUE) {
+      R_THROW_SYSTEM_ERROR("Cannot get standard output handle");
+    }
+    console_in = hin;
+    console_out = hout;
   }
   return 0;
 }
@@ -29,7 +39,9 @@ keypress_key_t getWinChar() {
   int chr;
 
   for (;; Sleep(10)) {
-    ReadConsoleInputA(console_in, &rec, 1, &count);
+    if (! ReadConsoleInputA(console_in, &rec, 1, &count)) {
+      R_THROW_SYSTEM_ERROR("Cannot read from console");
+    }
     if (rec.EventType != KEY_EVENT) continue;
     if (! rec.Event.KeyEvent.bKeyDown) continue;
     buf[0] = chr = rec.Event.KeyEvent.uChar.AsciiChar;
@@ -97,7 +109,9 @@ keypress_key_t keypress_read(int block) {
 
   enableRawMode();
 
-  GetConsoleScreenBufferInfo(console_out, &inf);
+  if (! GetConsoleScreenBufferInfo(console_out, &inf)) {
+    R_THROW_SYSTEM_ERROR("Cannot query console information");
+  }
 
   res = getWinChar();
 
