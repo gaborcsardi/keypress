@@ -12,15 +12,34 @@ Whether there is support for waiting for individual
 keypressses.
 }
 \description{
-Keypress supports terminals (Windows or Unix), including the
-RStudio terminal. Other environments, e.g. the macOS R.app, the
-Windowd Rgui, Emacs ESS, etc. are not supported.
+Check if the current platform/terminal supports reading
+single keys.
+
+\if{html}{\out{<link rel="stylesheet" type="text/css" href="../doc/assets/extra.css">}}
+
+\if{html}{\out{<script src="../doc/assets/rd.js"></script>}}
+}
+\details{
+Supported platforms:
+\itemize{
+\item Terminals in Windows and Unix.
+\item RStudio terminal.
+}
+
+Not supported:
+\itemize{
+\item RStudio (if not in the RStudio terminal).
+\item R.app on macOS.
+\item Rgui on Windows.
+\item Emacs ESS.
+\item Others.
+}
 }
 \examples{
 has_keypress_support()
 }
 \seealso{
-Other keypress: 
+Other keypress function: 
 \code{\link{keypress}()}
 }
-\concept{keypress}
+\concept{keypress function}

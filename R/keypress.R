@@ -1,4 +1,7 @@
 
+#' @theme assets/extra.css assets/rd.js
+NULL
+
 #' Read a single keypress at the terminal
 #'
 #' It currently only works at Linux/Unix and OSX terminals,
@@ -18,7 +21,7 @@
 #' @return The key pressed, a character scalar. For non-blocking reads
 #'   NA is returned if no keys are available.
 #'
-#' @family keypress
+#' @family keypress function
 #' @useDynLib keypress, .registration = TRUE, .fixes = "C_"
 #' @export
 #' @examplesIf FALSE
@@ -37,14 +40,22 @@ keypress <- function(block = TRUE) {
 #' Check if the current platform/terminal supports reading
 #' single keys.
 #'
-#' Keypress supports terminals (Windows or Unix), including the
-#' RStudio terminal. Other environments, e.g. the macOS R.app, the
-#' Windowd Rgui, Emacs ESS, etc. are not supported.
+#' @details
+#' Supported platforms:
+#' * Terminals in Windows and Unix.
+#' * RStudio terminal.
+#'
+#' Not supported:
+#' * RStudio (if not in the RStudio terminal).
+#' * R.app on macOS.
+#' * Rgui on Windows.
+#' * Emacs ESS.
+#' * Others.
 #'
 #' @return Whether there is support for waiting for individual
 #' keypressses.
 #'
-#' @family keypress
+#' @family keypress function
 #' @export
 #' @examples
 #' has_keypress_support()

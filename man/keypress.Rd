@@ -17,6 +17,10 @@ NA is returned if no keys are available.
 \description{
 It currently only works at Linux/Unix and OSX terminals,
 and at the Windows command line. see \code{\link{has_keypress_support}}.
+
+\if{html}{\out{<link rel="stylesheet" type="text/css" href="../doc/assets/extra.css">}}
+
+\if{html}{\out{<script src="../doc/assets/rd.js"></script>}}
 }
 \details{
 The following special keys are supported:
@@ -37,7 +41,7 @@ cat("You pressed key", x, "\n")
 \dontshow{\}) # examplesIf}
 }
 \seealso{
-Other keypress: 
+Other keypress function: 
 \code{\link{has_keypress_support}()}
 }
-\concept{keypress}
+\concept{keypress function}

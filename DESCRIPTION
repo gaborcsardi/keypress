@@ -13,5 +13,6 @@ License: MIT + file LICENSE
 URL: https://github.com/gaborcsardi/keypress#readme
 BugReports: https://github.com/gaborcsardi/keypress/issues
 RoxygenNote: 7.0.2.9000
-Roxygen: { loadNamespace("roxygenlabs"); list(markdown = TRUE) }
+Roxygen: { library(roxygenlabs); list(markdown = TRUE,
+    roclets = c("collate", "namespace", "roxygenlabs_rd")) }
 Encoding: UTF-8
