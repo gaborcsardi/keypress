@@ -10,7 +10,7 @@ Description: Wait for a single key press at the 'R' prompt.
     'R Studio'. In these cases 'keypress' stops with an
     error message.
 License: MIT + file LICENSE
-URL: https://github.com/gaborcsardi/keypress
+URL: https://github.com/gaborcsardi/keypress#readme
 BugReports: https://github.com/gaborcsardi/keypress/issues
 RoxygenNote: 7.0.2.9000
 Encoding: UTF-8
