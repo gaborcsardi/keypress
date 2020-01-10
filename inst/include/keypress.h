@@ -77,6 +77,6 @@ keypress_key_t keypress_utf8(const char *buf);
 
 SEXP keypress(SEXP s_block);
 
-const char *keypress_key_names[KEYPRESS_NAME_SIZE];
+extern const char *keypress_key_names[KEYPRESS_NAME_SIZE];
 
 #endif
