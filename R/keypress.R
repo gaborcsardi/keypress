@@ -55,7 +55,7 @@ has_keypress_support <- function() {
 
   rs <- rstudio$detect()
 
-  if (rs$type != "not-rstudio") {
+  if (rs$type != "not_rstudio") {
     rs$has_canonical_mode
 
   } else {
