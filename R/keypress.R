@@ -12,7 +12,6 @@
 #'     'escape'.
 #' * Control with one of the following keys: 'a', 'b', 'c', 'd', 'e', 'f',
 #'     'h', 'k', 'l', 'n', 'p', 't', 'u', 'w'.
-#' }
 #'
 #' @param block Whether to wait for a key press, if there is none
 #'   available now.
@@ -22,11 +21,9 @@
 #' @family keypress
 #' @useDynLib keypress, .registration = TRUE, .fixes = "C_"
 #' @export
-#' @examples
-#' \dontrun{
+#' @examplesIf FALSE
 #' x <- keypress()
 #' cat("You pressed key", x, "\n")
-#' }
 
 keypress <- function(block = TRUE) {
   if (!has_keypress_support()) {
