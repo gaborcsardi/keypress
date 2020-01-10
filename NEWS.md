@@ -1,5 +1,5 @@
 
-# develoment version
+# 1.2.0
 
 - Support RStudio terminal.
 - Better detection of support in Emacs.
