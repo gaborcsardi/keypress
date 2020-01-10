@@ -57,4 +57,4 @@ Note that not all keys are supported, in particular most of the modifiers
 
 ## License
 
-MIT © [Gábor Csárdi](http://gaborcsardi.org)
+MIT © [Gábor Csárdi](https://github.com/gaborcsardi)
