@@ -12,8 +12,9 @@ Whether there is support for waiting for individual
 keypressses.
 }
 \description{
-Check if the current platform/terminal supports reading
-single keys.
+Keypress supports terminals (Windows or Unix), including the
+RStudio terminal. Other environments, e.g. the macOS R.app, the
+Windowd Rgui, Emacs ESS, etc. are not supported.
 }
 \examples{
 has_keypress_support()

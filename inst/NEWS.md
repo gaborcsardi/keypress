@@ -1,7 +1,8 @@
 
 # 1.1.2
 
-No user visible changes.
+- Support RStudio terminal.
+- Better detection of support in Emacs.
 
 # 1.1.1
 

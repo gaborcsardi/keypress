@@ -40,6 +40,10 @@ keypress <- function(block = TRUE) {
 #' Check if the current platform/terminal supports reading
 #' single keys.
 #'
+#' Keypress supports terminals (Windows or Unix), including the
+#' RStudio terminal. Other environments, e.g. the macOS R.app, the
+#' Windowd Rgui, Emacs ESS, etc. are not supported.
+#'
 #' @return Whether there is support for waiting for individual
 #' keypressses.
 #'
@@ -49,13 +53,20 @@ keypress <- function(block = TRUE) {
 #' has_keypress_support()
 
 has_keypress_support <- function() {
-  ## Supported if we have a terminal, and we are not in RStudio,
-  ## not in R.app, not in Rgui, and not in Emacs.
-  ## Yes, pretty limited.
-  isatty(stdin()) &&
-    Sys.getenv("RSTUDIO") != 1 &&
-    Sys.getenv("R_GUI_APP_VERSION") == "" &&
-    .Platform$GUI != "Rgui" &&
-    ! identical(getOption("STERM"), "iESS") &&
-    Sys.getenv("EMACS") != "t"
+  ## Supported if we have a terminal or RStudio terminal.
+  ## Not supported otherwise in RStudio, R.app, Rgui or Emacs
+
+  rs <- rstudio$detect()
+
+  if (rs$type != "not-rstudio") {
+    rs$has_canonical_mode
+
+  } else {
+    isatty(stdin()) &&
+      Sys.getenv("R_GUI_APP_VERSION") == "" &&
+      .Platform$GUI != "Rgui" &&
+      ! identical(getOption("STERM"), "iESS") &&
+      Sys.getenv("EMACS") != "t" &&
+      Sys.getenv("TERM") != "dumb"
+  }
 }

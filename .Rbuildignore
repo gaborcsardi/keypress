@@ -4,3 +4,5 @@
 ^NEWS.md$
 ^.travis.yml$
 ^appveyor.yml$
+^.*\.Rproj$
+^\.Rproj\.user$
