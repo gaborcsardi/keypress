@@ -5,19 +5,13 @@
 #' and at the Windows command line. see \code{\link{has_keypress_support}}.
 #'
 #' The following special keys are supported:
-#' \itemize{
-#'   \item Arrow keys: \sQuote{up}, \sQuote{down}, \sQuote{right},
-#'     \sQuote{left}.
-#'   \item Function keys: from \sQuote{f1} to \sQuote{f12}.
-#'   \item Others: sQuote{home}, \sQuote{end},
-#'     \sQuote{insert}, \sQuote{delete}, \sQuote{pageup},
-#'     \sQuote{pagedown}, \sQuote{tab}, \sQuote{enter},
-#'     \sQuote{backspace} (same as \sQuote{delete} on OSX keyboards),
-#'     \sQuote{escape}.
-#'   \item Control with one of the following keys: \sQuote{a}, \sQuote{b},
-#'     \sQuote{c}, \sQuote{d}, \sQuote{e}, \sQuote{f}, \sQuote{h},
-#'     \sQuote{k}, \sQuote{l}, \sQuote{n}, \sQuote{p}, \sQuote{t},
-#'     \sQuote{u}, \sQuote{w}.
+#' * Arrow keys: 'up', 'down', 'right', 'left'.
+#' * Function keys: from 'f1' to 'f12'.
+#' * Others: 'home', 'end', 'insert', 'delete', 'pageup', 'pagedown',
+#'     'tab', 'enter', 'backspace' (same as 'delete' on OSX keyboards),
+#'     'escape'.
+#' * Control with one of the following keys: 'a', 'b', 'c', 'd', 'e', 'f',
+#'     'h', 'k', 'l', 'n', 'p', 't', 'u', 'w'.
 #' }
 #'
 #' @param block Whether to wait for a key press, if there is none

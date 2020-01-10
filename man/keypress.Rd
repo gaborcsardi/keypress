@@ -19,28 +19,16 @@ It currently only works at Linux/Unix and OSX terminals,
 and at the Windows command line. see \code{\link{has_keypress_support}}.
 }
 \details{
-The following special keys are supported:
-\itemize{
-  \item Arrow keys: \sQuote{up}, \sQuote{down}, \sQuote{right},
-    \sQuote{left}.
-  \item Function keys: from \sQuote{f1} to \sQuote{f12}.
-  \item Others: sQuote{home}, \sQuote{end},
-    \sQuote{insert}, \sQuote{delete}, \sQuote{pageup},
-    \sQuote{pagedown}, \sQuote{tab}, \sQuote{enter},
-    \sQuote{backspace} (same as \sQuote{delete} on OSX keyboards),
-    \sQuote{escape}.
-  \item Control with one of the following keys: \sQuote{a}, \sQuote{b},
-    \sQuote{c}, \sQuote{d}, \sQuote{e}, \sQuote{f}, \sQuote{h},
-    \sQuote{k}, \sQuote{l}, \sQuote{n}, \sQuote{p}, \sQuote{t},
-    \sQuote{u}, \sQuote{w}.
-}
+
 }
 \examples{
 \dontrun{
 x <- keypress()
-cat("You pressed key", x, "\\n")
+cat("You pressed key", x, "\n")
 }
 }
 \seealso{
-Other keypress: \code{\link{has_keypress_support}}
+Other keypress: 
+\code{\link{has_keypress_support}()}
 }
+\concept{keypress}

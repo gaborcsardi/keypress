@@ -19,5 +19,7 @@ single keys.
 has_keypress_support()
 }
 \seealso{
-Other keypress: \code{\link{keypress}}
+Other keypress: 
+\code{\link{keypress}()}
 }
+\concept{keypress}
