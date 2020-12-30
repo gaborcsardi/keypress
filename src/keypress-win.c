@@ -32,18 +32,26 @@ static int disableRawMode() {
   return 0;
 }
 
-keypress_key_t getWinChar() {
+keypress_key_t getWinChar(int block) {
   INPUT_RECORD rec;
   DWORD count;
   char buf[2] = { 0, 0 };
   int chr;
 
-  for (;; Sleep(10)) {
+  while(BLOCKING) {
+    Sleep(10);
     if (! ReadConsoleInputA(console_in, &rec, 1, &count)) {
       R_THROW_SYSTEM_ERROR("Cannot read from console");
     }
-    if (rec.EventType != KEY_EVENT) continue;
-    if (! rec.Event.KeyEvent.bKeyDown) continue;
+    if (rec.EventType != KEY_EVENT) {
+      if (block == BLOCKING) continue;
+      else break;
+    }
+    if (! rec.Event.KeyEvent.bKeyDown) {
+      if (block == BLOCKING) continue;
+      else break;
+    }
+
     buf[0] = chr = rec.Event.KeyEvent.uChar.AsciiChar;
 
     switch (rec.Event.KeyEvent.wVirtualKeyCode) {
@@ -97,8 +105,9 @@ keypress_key_t getWinChar() {
 	return keypress_utf8(buf);
       }
     }
-
+    if (block == NON_BLOCKING) break;
   }
+  return keypress_special(KEYPRESS_CHAR);
 }
 
 keypress_key_t keypress_read(int block) {
@@ -113,7 +122,7 @@ keypress_key_t keypress_read(int block) {
     R_THROW_SYSTEM_ERROR("Cannot query console information");
   }
 
-  res = getWinChar();
+  res = getWinChar(block);
 
   disableRawMode();
 
