@@ -38,8 +38,7 @@ keypress_key_t getWinChar(int block) {
   char buf[2] = { 0, 0 };
   int chr;
 
-  while(BLOCKING) {
-    Sleep(10);
+  for (;; Sleep(10)) {
     if (! ReadConsoleInputA(console_in, &rec, 1, &count)) {
       R_THROW_SYSTEM_ERROR("Cannot read from console");
     }
