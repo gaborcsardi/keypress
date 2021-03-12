@@ -1,11 +1,9 @@
 
 # development version
 
-# 1.2.0
-
 - Support non-blocking press on Windows (Rterm)
 
-# 1.1.2
+# 1.2.0
 
 - Support RStudio terminal.
 - Better detection of support in Emacs.
