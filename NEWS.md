@@ -1,5 +1,7 @@
 
-# develoment version
+# development version
+
+# 1.2.0
 
 - Support non-blocking press on Windows (Rterm)
 
