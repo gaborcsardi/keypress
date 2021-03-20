@@ -6,6 +6,9 @@
 #include <Rinternals.h>
 #include <R_ext/Rdynload.h>
 
+#define BLOCKING           1
+#define NON_BLOCKING       0
+
 #define KEYPRESS_CHAR      0
 
 #define KEYPRESS_ENTER     1
