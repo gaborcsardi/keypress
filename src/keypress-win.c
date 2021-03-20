@@ -105,7 +105,6 @@ keypress_key_t getWinChar(int block) {
       }
     }
   }
-  return keypress_special(KEYPRESS_CHAR);
 }
 
 keypress_key_t keypress_read(int block) {
