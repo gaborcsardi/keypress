@@ -138,6 +138,8 @@ restore_term_status <- function() {
 #' terminal by the operating system, when using non-blocking keypress. This is
 #' not necessary when running in a Windows command prompt, and will be ignored.
 #'
+#' @param echo logical, where FALSE (the default) means turn echo off.
+#'
 #' @family terminal functions
 #' @useDynLib keypress, .registration = TRUE, .fixes = "C_"
 #' @export
