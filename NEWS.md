@@ -2,7 +2,9 @@
 
 - Allow turning echo off for non-blocking linux/OSX terminals
 
-# develoment version
+# development version
+
+# 1.2.0
 
 - Support RStudio terminal.
 - Better detection of support in Emacs.
