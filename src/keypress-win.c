@@ -34,9 +34,17 @@ static int disableRawMode() {
 
 // Below not needed for Windows terminal
 
-void save_term_status() {}
-void restore_term_status() {}
-void set_term_echo_(int echo) {}
+SEXP save_term_status() {
+  return R_NilValue;
+}
+
+SEXP restore_term_status() {
+  return R_NilValue;
+}
+
+SEXP set_term_echo_(int echo) {
+  return R_NilValue;
+}
 
 keypress_key_t getWinChar() {
   INPUT_RECORD rec;

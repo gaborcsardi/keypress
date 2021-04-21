@@ -70,9 +70,9 @@ typedef struct {
   char utf8[KEYPRESS_UTF8_BUFFER_SIZE + 1];
 } keypress_key_t;
 
-void save_term_status();
-void restore_term_status();
-void set_term_echo_(int echo);
+SEXP save_term_status();
+SEXP restore_term_status();
+SEXP set_term_echo_(int echo);
 
 keypress_key_t keypress_read(int block);
 
