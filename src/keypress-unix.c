@@ -165,7 +165,6 @@ void set_term_echo_(int echo) {
     R_THROW_SYSTEM_ERROR("Cannot query terminal flags");
   }
 
-  printf("ECHO = %d\n", echo);
   if (echo == 0) term.c_lflag &= ~ECHO;
   else term.c_lflag |= ECHO;
 
