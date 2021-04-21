@@ -98,8 +98,6 @@ has_keypress_support <- function() {
 #' @family terminal functions
 #' @useDynLib keypress, .registration = TRUE, .fixes = "C_"
 #' @export
-#' @examples
-#' save_term_status()
 
 save_term_status <- function() {
   .Call(C_save_term_status)
@@ -125,8 +123,6 @@ save_term_status <- function() {
 #' @family terminal functions
 #' @useDynLib keypress, .registration = TRUE, .fixes = "C_"
 #' @export
-#' @examples
-#' restore_term_status()
 
 restore_term_status <- function() {
   .Call(C_restore_term_status)
@@ -145,8 +141,6 @@ restore_term_status <- function() {
 #' @family terminal functions
 #' @useDynLib keypress, .registration = TRUE, .fixes = "C_"
 #' @export
-#' @examples
-#' set_term_echo(FALSE)
 
 set_term_echo <- function(echo = FALSE) {
   echo <- as.logical(echo)

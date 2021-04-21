@@ -26,9 +26,6 @@ settings on exit.
 
 This will be safely ignored on Windows, as it is not needed.
 }
-\examples{
-save_term_status()
-}
 \seealso{
 Other terminal functions: 
 \code{\link{restore_term_status}()},

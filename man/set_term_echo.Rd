@@ -19,9 +19,6 @@ of the keypress-related behaviour, without any keys being echoed in the
 terminal by the operating system, when using non-blocking keypress. This is
 not necessary when running in a Windows command prompt, and will be ignored.
 }
-\examples{
-set_term_echo(FALSE)
-}
 \seealso{
 Other terminal functions: 
 \code{\link{restore_term_status}()},
