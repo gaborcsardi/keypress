@@ -1,6 +1,6 @@
 Package: keypress
 Title: Wait for a Key Press in a Terminal
-Version: 1.2.0.9000
+Version: 1.2.0.9001
 Author: Gábor Csárdi [aut, cre], Jon Griffiths [aut]
 Maintainer: Gábor Csárdi <csardi.gabor@gmail.com>
 Description: Wait for a single key press at the 'R' prompt.
@@ -12,7 +12,7 @@ Description: Wait for a single key press at the 'R' prompt.
 License: MIT + file LICENSE
 URL: https://github.com/gaborcsardi/keypress#readme
 BugReports: https://github.com/gaborcsardi/keypress/issues
-RoxygenNote: 7.0.2.9000
+RoxygenNote: 7.1.1
 Roxygen: { library(roxygenlabs); list(markdown = TRUE,
     roclets = c("collate", "namespace", "roxygenlabs_rd")) }
 Encoding: UTF-8

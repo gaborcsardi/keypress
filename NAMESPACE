@@ -2,4 +2,7 @@
 
 export(has_keypress_support)
 export(keypress)
+export(restore_term_status)
+export(save_term_status)
+export(set_term_echo)
 useDynLib(keypress, .registration = TRUE, .fixes = "C_")

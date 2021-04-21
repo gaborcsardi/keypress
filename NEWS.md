@@ -1,3 +1,6 @@
+# more development (wes)
+
+- Allow turning echo off for non-blocking linux/OSX terminals
 
 # development version
 
