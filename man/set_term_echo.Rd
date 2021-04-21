@@ -6,6 +6,9 @@
 \usage{
 set_term_echo(echo = FALSE)
 }
+\arguments{
+\item{echo}{logical, where FALSE (the default) means turn echo off.}
+}
 \description{
 For Linux/Unix and OSX terminals, set the echo flag to ON or OFF.
 
