@@ -78,3 +78,79 @@ has_keypress_support <- function() {
       Sys.getenv("TERM") != "dumb"
   }
 }
+
+#' Save current terminal state
+#'
+#' For Linux/Unix and OSX terminals, save the current flags relating to
+#' behaviour of the terminal used to call the R script.
+#'
+#' For Linux/Unix and OSX terminals using non-blocking keypress, special
+#' settings need applying to prevent characters being echoed to the terminal
+#' as well as being interpreted by keypress. However, any changes made
+#' to the settings will by default persist after exiting your R script.
+#' Therefore, should you need non-blocking keypresses from one of these
+#' terminals, you should save the terminal settings and turn off echo near
+#' the beginning of your code, and then restore the original terminal
+#' settings on exit.
+#'
+#' This will be safely ignored on Windows, as it is not needed.
+#'
+#' @family terminal functions
+#' @useDynLib keypress, .registration = TRUE, .fixes = "C_"
+#' @export
+#' @examples
+#' save_term_status()
+
+save_term_status <- function() {
+  .Call(C_save_term_status)
+  invisible()
+}
+
+#' Restore previously saved terminal state
+#'
+#' For Linux/Unix and OSX terminals, restore the current flags relating to
+#' behaviour of the terminal used to call the R script.
+#'
+#' For Linux/Unix and OSX terminals using non-blocking keypress, special
+#' settings need applying to prevent characters being echoed to the terminal
+#' as well as being interpreted by keypress. However, any changes made
+#' to the settings will by default persist after exiting your R script.
+#' Therefore, should you need non-blocking keypresses from one of these
+#' terminals, you should save the terminal settings and turn off echo near
+#' the beginning of your code, and then restore the original terminal
+#' settings on exit.
+#'
+#' This will be safely ignored on Windows, as it is not needed.
+#'
+#' @family terminal functions
+#' @useDynLib keypress, .registration = TRUE, .fixes = "C_"
+#' @export
+#' @examples
+#' restore_term_status()
+
+restore_term_status <- function() {
+  .Call(C_restore_term_status)
+  invisible()
+}
+
+#' Set echo flag of terminal.
+#'
+#' For Linux/Unix and OSX terminals, set the echo flag to ON or OFF.
+#'
+#' You will need to set echo to FALSE if you want the R script to handle all
+#' of the keypress-related behaviour, without any keys being echoed in the
+#' terminal by the operating system, when using non-blocking keypress. This is
+#' not necessary when running in a Windows command prompt, and will be ignored.
+#'
+#' @family terminal functions
+#' @useDynLib keypress, .registration = TRUE, .fixes = "C_"
+#' @export
+#' @examples
+#' set_term_echo(FALSE)
+
+set_term_echo <- function(echo = FALSE) {
+  echo <- as.logical(echo)
+  if (length(echo) != 1) stop("'echo' must be a logical scalar")
+  .Call(C_set_term_echo, echo)
+  invisible()
+}

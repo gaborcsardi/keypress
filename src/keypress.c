@@ -42,15 +42,15 @@ const char *keypress_key_names[KEYPRESS_NAME_SIZE] = {
   "ctrl-t",			/* 34 */
   "ctrl-u",			/* 35 */
   "ctrl-w",			/* 36 */
-  
+
   "escape",			/* 37 */
   "tab",			/* 38 */
-  
+
   "pageup",			/* 39 */
   "pagedown",			/* 40 */
-  
+
   "none",			/* 41 */
-  
+
   "unknown"			/* 42 */
 };
 
@@ -69,6 +69,11 @@ keypress_key_t keypress_utf8(const char *buf) {
   strncpy(result.utf8, buf, KEYPRESS_UTF8_BUFFER_SIZE);
   result.utf8[KEYPRESS_UTF8_BUFFER_SIZE] = '0';
   return result;
+}
+
+void set_term_echo(SEXP s_echo) {
+  int echo = LOGICAL(s_echo)[0];
+  set_term_echo_(echo);
 }
 
 SEXP keypress(SEXP s_block) {

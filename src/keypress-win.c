@@ -32,6 +32,12 @@ static int disableRawMode() {
   return 0;
 }
 
+// Below not needed for Windows terminal
+
+void save_term_status() {}
+void restore_term_status() {}
+void set_term_echo_(int echo) {}
+
 keypress_key_t getWinChar() {
   INPUT_RECORD rec;
   DWORD count;
