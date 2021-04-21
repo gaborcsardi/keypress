@@ -42,9 +42,7 @@ SEXP restore_term_status() {
   return R_NilValue;
 }
 
-SEXP set_term_echo_(int echo) {
-  return R_NilValue;
-}
+void set_term_echo_(int echo) {}
 
 keypress_key_t getWinChar() {
   INPUT_RECORD rec;

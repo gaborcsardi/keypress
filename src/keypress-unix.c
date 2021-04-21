@@ -161,7 +161,7 @@ SEXP restore_term_status() {
   return R_NilValue;
 }
 
-SEXP set_term_echo_(int echo) {
+void set_term_echo_(int echo) {
   struct termios term = { 0 };
   if (tcgetattr(0, &term) < 0) {
     R_THROW_SYSTEM_ERROR("Cannot query terminal flags");
@@ -173,7 +173,6 @@ SEXP set_term_echo_(int echo) {
   if (tcsetattr(0, TCSANOW, &term) < 0) {
     R_THROW_SYSTEM_ERROR("Cannot query terminal flags");
   }
-  return R_NilValue;
 }
 
 keypress_key_t keypress_read(int block) {
