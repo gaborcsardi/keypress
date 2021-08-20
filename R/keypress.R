@@ -89,8 +89,6 @@ has_keypress_support <- function() {
 #' not necessary when running in a Windows command prompt, and will be safely
 #' ignored.
 #'
-#' @param echo logical, where FALSE (the default) means turn echo off.
-#'
 #' @family terminal functions
 #' @param func The function to be run with echo suppressed
 #' @useDynLib keypress, .registration = TRUE, .fixes = "C_"
