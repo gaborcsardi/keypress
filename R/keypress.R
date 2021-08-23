@@ -96,8 +96,8 @@ has_keypress_support <- function() {
 #'
 with_no_echo <- function(func) {
   on.exit(.Call(C_restore_term_status))
+  .Call(C_save_term_status)
   .Call(C_set_term_echo, FALSE)
   func
-  .Call(C_save_term_status)
   invisible()
 }
