@@ -34,7 +34,8 @@ keypress <- function(block = TRUE) {
   }
   block <- as.logical(block)
   if (length(block) != 1) stop("'block' must be a logical scalar")
-  .Call(C_keypress, block)
+  ret <- .Call(C_keypress, block)
+  if (ret == "none") NA_character_ else ret
 }
 
 #' Check if the current platform/terminal supports reading
