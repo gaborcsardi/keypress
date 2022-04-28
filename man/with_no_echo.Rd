@@ -11,10 +11,6 @@ with_no_echo(func)
 }
 \description{
 For Linux/Unix and OSX terminals, suppress key echoes from the terminal.
-
-\if{html}{\out{<link rel="stylesheet" type="text/css" href="../doc/assets/extra.css">}}
-
-\if{html}{\out{<script src="../doc/assets/rd.js"></script>}}
 }
 \details{
 You will need to set echo to FALSE if you want the R script to handle all
