@@ -14,10 +14,6 @@ keypressses.
 \description{
 Check if the current platform/terminal supports reading
 single keys.
-
-\if{html}{\out{<link rel="stylesheet" type="text/css" href="../doc/assets/extra.css">}}
-
-\if{html}{\out{<script src="../doc/assets/rd.js"></script>}}
 }
 \details{
 Supported platforms:

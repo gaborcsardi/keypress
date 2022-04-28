@@ -12,7 +12,6 @@ Description: Wait for a single key press at the 'R' prompt.
 License: MIT + file LICENSE
 URL: https://github.com/gaborcsardi/keypress#readme
 BugReports: https://github.com/gaborcsardi/keypress/issues
-RoxygenNote: 7.0.2.9000
-Roxygen: { library(roxygenlabs); list(markdown = TRUE,
-    roclets = c("collate", "namespace", "roxygenlabs_rd")) }
+RoxygenNote: 7.1.2
+Roxygen: list(markdown = TRUE)
 Encoding: UTF-8
