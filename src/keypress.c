@@ -42,15 +42,15 @@ const char *keypress_key_names[KEYPRESS_NAME_SIZE] = {
   "ctrl-t",			/* 34 */
   "ctrl-u",			/* 35 */
   "ctrl-w",			/* 36 */
-  
+
   "escape",			/* 37 */
   "tab",			/* 38 */
-  
+
   "pageup",			/* 39 */
   "pagedown",			/* 40 */
-  
+
   "none",			/* 41 */
-  
+
   "unknown"			/* 42 */
 };
 

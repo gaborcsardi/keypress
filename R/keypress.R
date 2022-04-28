@@ -1,7 +1,4 @@
 
-#' @theme assets/extra.css assets/rd.js
-NULL
-
 #' Read a single keypress at the terminal
 #'
 #' It currently only works at Linux/Unix and OSX terminals,
@@ -78,4 +75,28 @@ has_keypress_support <- function() {
       Sys.getenv("EMACS") != "t" &&
       Sys.getenv("TERM") != "dumb"
   }
+}
+
+#' Call a function with echo suppressed
+#'
+#' For Linux/Unix and OSX terminals, suppress key echoes from the terminal.
+#'
+#' You will need to set echo to FALSE if you want the R script to handle all
+#' of the keypress-related behaviour, without any keys being echoed in the
+#' terminal by the operating system, when using non-blocking keypress. This is
+#' not necessary when running in a Windows command prompt, and will be safely
+#' ignored.
+#'
+#' @family terminal functions
+#' @param expr Expression to evaluate without terminal echo.
+#' @useDynLib keypress, .registration = TRUE, .fixes = "C_"
+#' @export
+#'
+
+without_echo <- function(expr) {
+  on.exit(.Call(C_restore_term_status))
+  .Call(C_save_term_status)
+  .Call(C_set_term_echo, FALSE)
+  expr
+  invisible()
 }

@@ -145,22 +145,60 @@ keypress_key_t function_key(const char *buf, size_t buf_size) {
   return keypress_special(KEYPRESS_UNKNOWN);
 }
 
-keypress_key_t keypress_read(int block) {
+static struct termios orig_term = { 0 };
 
-  char buf[11] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-  struct termios old = { 0 };
-  int flags = fcntl(0, F_GETFL, 0);
+SEXP save_term_status() {
+  if (tcgetattr(0, &orig_term) < 0) {
+    R_THROW_SYSTEM_ERROR("Cannot query terminal flags");
+  }
+  return R_NilValue;
+}
 
-  if (tcgetattr(0, &old) < 0) {
+SEXP restore_term_status() {
+  if (tcsetattr(0, TCSANOW, &orig_term) < 0) {
+    R_THROW_SYSTEM_ERROR("Cannot restore terminal flags");
+  }
+  return R_NilValue;
+}
+
+SEXP set_term_echo(SEXP s_echo) {
+  int echo = LOGICAL(s_echo)[0];
+
+  struct termios term = { 0 };
+  if (tcgetattr(0, &term) < 0) {
     R_THROW_SYSTEM_ERROR("Cannot query terminal flags");
   }
 
-  old.c_lflag &= ~ICANON;
-  old.c_lflag &= ~ECHO;
-  old.c_cc[VMIN] = 1;
-  old.c_cc[VTIME] = 0;
+  if (echo == 0) term.c_lflag &= ~ECHO;
+  else term.c_lflag |= ECHO;
 
-  if (tcsetattr(0, TCSANOW, &old) < 0) {
+  if (tcsetattr(0, TCSANOW, &term) < 0) {
+    R_THROW_SYSTEM_ERROR("Cannot query terminal flags");
+  }
+
+  return R_NilValue;
+}
+
+keypress_key_t keypress_read(int block) {
+
+  char buf[11] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+  struct termios term = { 0 };
+  int flags = fcntl(0, F_GETFL, 0);
+
+  if (tcgetattr(0, &term) < 0) {
+    R_THROW_SYSTEM_ERROR("Cannot query terminal flags");
+  }
+
+  tcflag_t term_flags = term.c_lflag;
+  int term_vmin = term.c_cc[VMIN];
+  int term_vtime = term.c_cc[VTIME];
+
+  term.c_lflag &= ~ICANON;
+  term.c_lflag &= ~ECHO;
+  term.c_cc[VMIN] = 1;
+  term.c_cc[VTIME] = 0;
+
+  if (tcsetattr(0, TCSANOW, &term) < 0) {
     R_THROW_SYSTEM_ERROR("Cannot set canonical mode");
   }
 
@@ -174,9 +212,11 @@ keypress_key_t keypress_read(int block) {
     if (fcntl(0, F_SETFL, flags) == -1) {
       R_THROW_SYSTEM_ERROR("Cannot set terminal flags");
     }
-    old.c_lflag |= ICANON;
-    old.c_lflag |= ECHO;
-    tcsetattr(0, TCSADRAIN, &old);
+    term.c_lflag = term_flags;
+    term.c_cc[VMIN] = term_vmin;
+    term.c_cc[VTIME] = term_vtime;
+    tcsetattr(0, TCSADRAIN, &term);
+
     if (block) {
       R_THROW_SYSTEM_ERROR("Cannot read key");
     } else {
@@ -206,8 +246,8 @@ keypress_key_t keypress_read(int block) {
         R_THROW_SYSTEM_ERROR("Cannot read from terminal");
       }
       if (buf[3] >= '0' && buf[3] <= '9') {
-	/* A fourth one is needed, too */
-	if (read(0, buf + 4, 1) < 0) {
+        /* A fourth one is needed, too */
+        if (read(0, buf + 4, 1) < 0) {
           R_THROW_SYSTEM_ERROR("Cannot read from terminal");
         }
       }
@@ -242,10 +282,11 @@ keypress_key_t keypress_read(int block) {
     R_THROW_SYSTEM_ERROR("Cannot set terminal flags");
   }
 
-  old.c_lflag |= ICANON;
-  old.c_lflag |= ECHO;
+  term.c_lflag = term_flags;
+  term.c_cc[VMIN] = term_vmin;
+  term.c_cc[VTIME] = term_vtime;
 
-  if (tcsetattr(0, TCSADRAIN, &old) < 0) {
+  if (tcsetattr(0, TCSADRAIN, &term) < 0) {
     R_THROW_SYSTEM_ERROR("Cannot reset terminal flags");
   }
 

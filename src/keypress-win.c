@@ -32,6 +32,20 @@ static int disableRawMode() {
   return 0;
 }
 
+// Below not needed for Windows terminal
+
+SEXP save_term_status() {
+  return R_NilValue;
+}
+
+SEXP restore_term_status() {
+  return R_NilValue;
+}
+
+SEXP set_term_echo(SEXP s_echo) {
+  return R_NilValue;
+}
+
 keypress_key_t getWinChar(int block) {
   INPUT_RECORD rec;
   DWORD count;
