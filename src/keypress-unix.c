@@ -145,7 +145,7 @@ keypress_key_t function_key(const char *buf, size_t buf_size) {
   return keypress_special(KEYPRESS_UNKNOWN);
 }
 
-struct termios orig_term = { 0 };
+static struct termios orig_term = { 0 };
 
 SEXP save_term_status() {
   if (tcgetattr(0, &orig_term) < 0) {
@@ -161,7 +161,9 @@ SEXP restore_term_status() {
   return R_NilValue;
 }
 
-void set_term_echo_(int echo) {
+SEXP set_term_echo(SEXP s_echo) {
+  int echo = LOGICAL(s_echo)[0];
+
   struct termios term = { 0 };
   if (tcgetattr(0, &term) < 0) {
     R_THROW_SYSTEM_ERROR("Cannot query terminal flags");
@@ -173,6 +175,8 @@ void set_term_echo_(int echo) {
   if (tcsetattr(0, TCSANOW, &term) < 0) {
     R_THROW_SYSTEM_ERROR("Cannot query terminal flags");
   }
+
+  return R_NilValue;
 }
 
 keypress_key_t keypress_read(int block) {

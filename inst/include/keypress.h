@@ -73,16 +73,11 @@ typedef struct {
   char utf8[KEYPRESS_UTF8_BUFFER_SIZE + 1];
 } keypress_key_t;
 
-SEXP save_term_status();
-SEXP restore_term_status();
-void set_term_echo_(int echo);
-
 keypress_key_t keypress_read(int block);
 
 keypress_key_t keypress_special(int key);
 keypress_key_t keypress_utf8(const char *buf);
 
-SEXP set_term_echo(SEXP s_echo);
 SEXP keypress(SEXP s_block);
 
 extern const char *keypress_key_names[KEYPRESS_NAME_SIZE];

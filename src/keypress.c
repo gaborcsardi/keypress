@@ -71,12 +71,6 @@ keypress_key_t keypress_utf8(const char *buf) {
   return result;
 }
 
-SEXP set_term_echo(SEXP s_echo) {
-  int echo = LOGICAL(s_echo)[0];
-  set_term_echo_(echo);
-  return R_NilValue;
-}
-
 SEXP keypress(SEXP s_block) {
   SEXP result = NULL;
   int block = LOGICAL(s_block)[0];
