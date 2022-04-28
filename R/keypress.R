@@ -87,14 +87,15 @@ has_keypress_support <- function() {
 #' ignored.
 #'
 #' @family terminal functions
-#' @param func The function to be run with echo suppressed
+#' @param expr Expression to evaluate without terminal echo.
 #' @useDynLib keypress, .registration = TRUE, .fixes = "C_"
 #' @export
 #'
-with_no_echo <- function(func) {
+
+without_echo <- function(expr) {
   on.exit(.Call(C_restore_term_status))
   .Call(C_save_term_status)
   .Call(C_set_term_echo, FALSE)
-  func
+  expr
   invisible()
 }

@@ -2,5 +2,5 @@
 
 export(has_keypress_support)
 export(keypress)
-export(with_no_echo)
+export(without_echo)
 useDynLib(keypress, .registration = TRUE, .fixes = "C_")
