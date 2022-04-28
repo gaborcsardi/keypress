@@ -1,7 +1,4 @@
 
-#' @theme assets/extra.css assets/rd.js
-NULL
-
 #' Read a single keypress at the terminal
 #'
 #' It currently only works at Linux/Unix and OSX terminals,
