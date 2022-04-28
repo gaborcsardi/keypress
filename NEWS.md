@@ -3,6 +3,7 @@
 
 - Allow turning echo off for non-blocking Linux and macOS terminals
   (#11, @weshinsley)
+- Support non-blocking press on Windows (Rterm)
 
 # 1.2.0
 

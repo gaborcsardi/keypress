@@ -44,13 +44,20 @@ SEXP restore_term_status() {
 
 void set_term_echo_(int echo) {}
 
-keypress_key_t getWinChar() {
+keypress_key_t getWinChar(int block) {
   INPUT_RECORD rec;
   DWORD count;
   char buf[2] = { 0, 0 };
   int chr;
 
   for (;; Sleep(10)) {
+
+    GetNumberOfConsoleInputEvents(console_in, &count);
+
+    if ((count == 0) && (block == NON_BLOCKING)) {
+      return keypress_special(KEYPRESS_NONE);
+    }
+
     if (! ReadConsoleInputA(console_in, &rec, 1, &count)) {
       R_THROW_SYSTEM_ERROR("Cannot read from console");
     }
@@ -125,7 +132,7 @@ keypress_key_t keypress_read(int block) {
     R_THROW_SYSTEM_ERROR("Cannot query console information");
   }
 
-  res = getWinChar();
+  res = getWinChar(block);
 
   disableRawMode();
 
