@@ -1,6 +1,6 @@
 
 /* Avoid warning about empty compilation unit. */
-void keypress_win_dummy() { }
+void keypress_win_dummy(void) { }
 
 #ifdef WIN32
 
@@ -10,7 +10,7 @@ void keypress_win_dummy() { }
 
 static HANDLE console_in, console_out;
 
-static int enableRawMode() {
+static int enableRawMode(void) {
   if (!console_in) {
     HANDLE hin, hout;
     hin = GetStdHandle(STD_INPUT_HANDLE);
@@ -27,18 +27,18 @@ static int enableRawMode() {
   return 0;
 }
 
-static int disableRawMode() {
+static int disableRawMode(void) {
   /* Nothing to do yet */
   return 0;
 }
 
 // Below not needed for Windows terminal
 
-SEXP save_term_status() {
+SEXP save_term_status(void) {
   return R_NilValue;
 }
 
-SEXP restore_term_status() {
+SEXP restore_term_status(void) {
   return R_NilValue;
 }
 

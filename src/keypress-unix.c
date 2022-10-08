@@ -1,6 +1,6 @@
 
 /* Avoid warning about empty compilation unit. */
-void keypress_unix_dummy() { }
+void keypress_unix_dummy(void) { }
 
 #ifndef _WIN32
 
@@ -147,14 +147,14 @@ keypress_key_t function_key(const char *buf, size_t buf_size) {
 
 static struct termios orig_term = { 0 };
 
-SEXP save_term_status() {
+SEXP save_term_status(void) {
   if (tcgetattr(0, &orig_term) < 0) {
     R_THROW_SYSTEM_ERROR("Cannot query terminal flags");
   }
   return R_NilValue;
 }
 
-SEXP restore_term_status() {
+SEXP restore_term_status(void) {
   if (tcsetattr(0, TCSANOW, &orig_term) < 0) {
     R_THROW_SYSTEM_ERROR("Cannot restore terminal flags");
   }
