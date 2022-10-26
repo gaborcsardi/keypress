@@ -5,8 +5,8 @@
 
 [![Linux Build Status](https://travis-ci.org/gaborcsardi/keypress.svg?branch=master)](https://travis-ci.org/gaborcsardi/keypress)
 [![Windows Build status](https://ci.appveyor.com/api/projects/status/github/gaborcsardi/keypress?svg=true)](https://ci.appveyor.com/project/gaborcsardi/keypress)
-[![](http://www.r-pkg.org/badges/version/keypress)](http://www.r-pkg.org/pkg/keypress)
-[![CRAN RStudio mirror downloads](http://cranlogs.r-pkg.org/badges/keypress)](http://www.r-pkg.org/pkg/keypress)
+[![](http://www.r-pkg.org/badges/version/keypress)](https://www.r-pkg.org:443/pkg/keypress)
+[![CRAN RStudio mirror downloads](http://cranlogs.r-pkg.org/badges/keypress)](https://www.r-pkg.org/pkg/keypress)
 
 ## Installation
 
