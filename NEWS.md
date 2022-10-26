@@ -4,6 +4,8 @@
 - Allow turning echo off for non-blocking Linux and macOS terminals
   (#11, @weshinsley)
 - Support non-blocking press on Windows (Rterm)
+- `keypress()` now returns `NA` if no key was pressed in non-blocking mode,
+  as it is documented.
 
 # 1.2.0
 
