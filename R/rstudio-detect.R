@@ -161,7 +161,7 @@ rstudio <- local({
       ansi_tty = FALSE,
       ansi_color = FALSE,
       num_colors = 1L,
-      has_canonical_mode = FALSEx
+      has_canonical_mode = FALSE
     )
   }
 
