@@ -3,10 +3,14 @@
 
 > Read a single key press from the terminal
 
-[![Linux Build Status](https://travis-ci.org/gaborcsardi/keypress.svg?branch=master)](https://travis-ci.org/gaborcsardi/keypress)
-[![Windows Build status](https://ci.appveyor.com/api/projects/status/github/gaborcsardi/keypress?svg=true)](https://ci.appveyor.com/project/gaborcsardi/keypress)
-[![](http://www.r-pkg.org/badges/version/keypress)](https://www.r-pkg.org:443/pkg/keypress)
-[![CRAN RStudio mirror downloads](http://cranlogs.r-pkg.org/badges/keypress)](https://www.r-pkg.org/pkg/keypress)
+<!-- badges: start -->
+[![R-CMD-check](https://github.com/gaborcsardi/keypress/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/gaborcsardi/keypress/actions/workflows/R-CMD-check.yaml)
+[![](https://www.r-pkg.org/badges/version/cli)](https://www.r-pkg.org/pkg/cli)
+[![CRAN RStudio mirror
+downloads](https://cranlogs.r-pkg.org/badges/cli)](https://www.r-pkg.org/pkg/cli)
+[![Codecov test
+coverage](https://codecov.io/gh/gaborcsardi/keypress/branch/main/graph/badge.svg)](https://app.codecov.io/gh/gaborcsardi/keypress?branch=main)
+<!-- badges: end -->
 
 ## Installation
 
