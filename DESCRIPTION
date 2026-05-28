@@ -16,8 +16,10 @@ Description: Wait for a single key press at the 'R' prompt.  This works in
 License: MIT + file LICENSE
 URL: https://github.com/gaborcsardi/keypress#readme
 BugReports: https://github.com/gaborcsardi/keypress/issues
+Suggests:
+    testthat (>= 3.1.10),
+    withr
+Config/testthat/edition: 3
 Encoding: UTF-8
-Suggests: 
-    covr
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.2

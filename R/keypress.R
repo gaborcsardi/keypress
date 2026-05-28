@@ -59,18 +59,22 @@ keypress <- function(block = TRUE) {
 #' @examples
 #' has_keypress_support()
 
+platform_gui <- function() {
+  .Platform$GUI # nocov
+}
+
 has_keypress_support <- function() {
   ## Supported if we have a terminal or RStudio terminal.
   ## Not supported otherwise in RStudio, R.app, Rgui or Emacs
 
-  rs <- rstudio$detect()
+  rs <- rstudio_detect()
 
   if (rs$type != "not_rstudio") {
     rs$has_canonical_mode
   } else {
     isatty(stdin()) &&
       Sys.getenv("R_GUI_APP_VERSION") == "" &&
-      .Platform$GUI != "Rgui" &&
+      platform_gui() != "Rgui" &&
       !identical(getOption("STERM"), "iESS") &&
       Sys.getenv("EMACS") != "t" &&
       Sys.getenv("TERM") != "dumb"
