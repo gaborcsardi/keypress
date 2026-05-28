@@ -1,5 +1,7 @@
 # keypress (development version)
 
+- No changes.
+
 # keypress 1.3.1
 
 - Fix a `*printf()` format string on Windows.
