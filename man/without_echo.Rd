@@ -10,7 +10,7 @@ without_echo(expr)
 \item{expr}{Expression to evaluate without terminal echo.}
 }
 \description{
-For Linux/Unix and OSX terminals, suppress key echoes from the terminal.
+For Linux/Unix and macOS terminals, suppress key echoes from the terminal.
 }
 \details{
 You will need to set echo to FALSE if you want the R script to handle all

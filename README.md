@@ -35,13 +35,13 @@ You pressed key h
 
 This is unfortunately impossible to do in
 - RStudio,
-- R.app (the builtin OSX GUI),
+- R.app (the builtin macOS GUI),
 - RGui (the builtin Windows GUI),
 - Emacs ESS, or
 - if `stdin()` is not a terminal.
 
 In other words, it pretty much only works interactively, in a terminal.
-The terminal can be pretty much any Linux, OSX, or other Unix terminal or
+The terminal can be pretty much any Linux, macOS, or other Unix terminal or
 Windows cmd (also called RTerm in R).
 
 ## Keys
@@ -54,9 +54,9 @@ Note that not all keys are supported, in particular most of the modifiers
 - Some key combinations with the `CONTROL` key: `ctrl-a`, `ctrl-b`,
   `ctrl-c`, `ctrl-d`, `ctrl-e`, `ctrl-f`, `ctrl-h`, `ctrl-k`, `ctrl-l`,
   `ctrl-n`, `ctrl-p`, `ctrl-t`, `ctrl-u`, `ctrl-w`.
-- Keys typically not availale on OS X keyboards: `home`, `end`, `insert`,
+- Keys typically not availale on macOS keyboards: `home`, `end`, `insert`,
   `delete`, `pageup`, `pagedown`.
-- On Linux and OS X Unicode characters are supported, but not (yet) on
+- On Linux and macOS Unicode characters are supported, but not (yet) on
   Windows. Unicode characters are returned UTF-8 encoded.
 
 ## License

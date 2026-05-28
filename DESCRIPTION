@@ -5,7 +5,7 @@ Author: Gábor Csárdi [aut, cre], Jon Griffiths [aut]
 Maintainer: Gábor Csárdi <csardi.gabor@gmail.com>
 Description: Wait for a single key press at the 'R' prompt.
     This works in terminals, but does not currently work
-    in the 'Windows' 'GUI', the 'OS X' 'GUI' ('R.app'),
+    in the 'Windows' 'GUI', the 'macOS' 'GUI' ('R.app'),
     in 'Emacs' 'ESS', in an 'Emacs' shell buffer or in
     'R Studio'. In these cases 'keypress' stops with an
     error message.

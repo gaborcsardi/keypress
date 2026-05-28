@@ -1,14 +1,14 @@
 
 #' Read a single keypress at the terminal
 #'
-#' It currently only works at Linux/Unix and OSX terminals,
+#' It currently only works at Linux/Unix and macOS terminals,
 #' and at the Windows command line. see \code{\link{has_keypress_support}}.
 #'
 #' The following special keys are supported:
 #' * Arrow keys: 'up', 'down', 'right', 'left'.
 #' * Function keys: from 'f1' to 'f12'.
 #' * Others: 'home', 'end', 'insert', 'delete', 'pageup', 'pagedown',
-#'     'tab', 'enter', 'backspace' (same as 'delete' on OSX keyboards),
+#'     'tab', 'enter', 'backspace' (same as 'delete' on macOS keyboards),
 #'     'escape'.
 #' * Control with one of the following keys: 'a', 'b', 'c', 'd', 'e', 'f',
 #'     'h', 'k', 'l', 'n', 'p', 't', 'u', 'w'.
@@ -79,7 +79,7 @@ has_keypress_support <- function() {
 
 #' Call a function with echo suppressed
 #'
-#' For Linux/Unix and OSX terminals, suppress key echoes from the terminal.
+#' For Linux/Unix and macOS terminals, suppress key echoes from the terminal.
 #'
 #' You will need to set echo to FALSE if you want the R script to handle all
 #' of the keypress-related behaviour, without any keys being echoed in the

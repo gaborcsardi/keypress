@@ -15,7 +15,7 @@ The key pressed, a character scalar. For non-blocking reads
 NA is returned if no keys are available.
 }
 \description{
-It currently only works at Linux/Unix and OSX terminals,
+It currently only works at Linux/Unix and macOS terminals,
 and at the Windows command line. see \code{\link{has_keypress_support}}.
 }
 \details{
@@ -24,7 +24,7 @@ The following special keys are supported:
 \item Arrow keys: 'up', 'down', 'right', 'left'.
 \item Function keys: from 'f1' to 'f12'.
 \item Others: 'home', 'end', 'insert', 'delete', 'pageup', 'pagedown',
-'tab', 'enter', 'backspace' (same as 'delete' on OSX keyboards),
+'tab', 'enter', 'backspace' (same as 'delete' on macOS keyboards),
 'escape'.
 \item Control with one of the following keys: 'a', 'b', 'c', 'd', 'e', 'f',
 'h', 'k', 'l', 'n', 'p', 't', 'u', 'w'.
