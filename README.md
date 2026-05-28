@@ -8,8 +8,7 @@
 [![](https://www.r-pkg.org/badges/version/cli)](https://www.r-pkg.org/pkg/cli)
 [![CRAN RStudio mirror
 downloads](https://cranlogs.r-pkg.org/badges/cli)](https://www.r-pkg.org/pkg/cli)
-[![Codecov test
-coverage](https://codecov.io/gh/gaborcsardi/keypress/branch/main/graph/badge.svg)](https://app.codecov.io/gh/gaborcsardi/keypress?branch=main)
+[![Codecov test coverage](https://codecov.io/gh/gaborcsardi/keypress/graph/badge.svg)](https://app.codecov.io/gh/gaborcsardi/keypress)
 <!-- badges: end -->
 
 ## Installation
