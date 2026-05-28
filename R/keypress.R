@@ -1,4 +1,3 @@
-
 #' Read a single keypress at the terminal
 #'
 #' It currently only works at Linux/Unix and macOS terminals,
@@ -30,7 +29,9 @@ keypress <- function(block = TRUE) {
     stop("Your platform/terminal does not support keypress")
   }
   block <- as.logical(block)
-  if (length(block) != 1) stop("'block' must be a logical scalar")
+  if (length(block) != 1) {
+    stop("'block' must be a logical scalar")
+  }
   ret <- .Call(C_keypress, block)
   if (ret == "none") NA_character_ else ret
 }
@@ -66,12 +67,11 @@ has_keypress_support <- function() {
 
   if (rs$type != "not_rstudio") {
     rs$has_canonical_mode
-
   } else {
     isatty(stdin()) &&
       Sys.getenv("R_GUI_APP_VERSION") == "" &&
       .Platform$GUI != "Rgui" &&
-      ! identical(getOption("STERM"), "iESS") &&
+      !identical(getOption("STERM"), "iESS") &&
       Sys.getenv("EMACS") != "t" &&
       Sys.getenv("TERM") != "dumb"
   }

@@ -7,3 +7,5 @@
 ^codecov\.yml$
 ^\.github$
 ^\.cache$
+^[.]?air[.]toml$
+^\.vscode$
