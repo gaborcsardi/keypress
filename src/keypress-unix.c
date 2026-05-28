@@ -6,6 +6,7 @@ void keypress_unix_dummy(void) { }
 
 #include "errors.h"
 #include "keypress.h"
+#include "keypress-internal.h"
 #include <unistd.h>
 #include <termios.h>
 #include <string.h>
@@ -297,6 +298,35 @@ keypress_key_t keypress_read(int block) {
     /* Single character */
     return single_char(buf);
   }
+}
+
+static SEXP key_to_sexp(keypress_key_t key) {
+  if (key.code == KEYPRESS_CHAR) {
+    return ScalarString(mkCharCE(key.utf8, CE_UTF8));
+  } else {
+    return ScalarString(mkCharCE(keypress_key_names[key.code], CE_UTF8));
+  }
+}
+
+SEXP test_single_char(SEXP s_bytes) {
+  if (TYPEOF(s_bytes) != RAWSXP || XLENGTH(s_bytes) < 1) {
+    error("'bytes' must be a raw vector of length >= 1");
+  }
+  char buf[2] = { 0, 0 };
+  buf[0] = (char) RAW(s_bytes)[0];
+  return key_to_sexp(single_char(buf));
+}
+
+SEXP test_function_key(SEXP s_bytes) {
+  if (TYPEOF(s_bytes) != RAWSXP) {
+    error("'bytes' must be a raw vector");
+  }
+  char buf[11] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+  buf[0] = '\033';
+  R_xlen_t n = XLENGTH(s_bytes);
+  if (n > 9) n = 9;
+  if (n > 0) memcpy(buf + 1, RAW(s_bytes), (size_t) n);
+  return key_to_sexp(function_key(buf, sizeof(buf)));
 }
 
 #endif

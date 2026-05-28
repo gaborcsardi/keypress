@@ -6,6 +6,7 @@ void keypress_win_dummy(void) { }
 
 #include "errors.h"
 #include "keypress.h"
+#include "keypress-internal.h"
 #include <windows.h>
 
 static HANDLE console_in, console_out;
@@ -43,6 +44,16 @@ SEXP restore_term_status(void) {
 }
 
 SEXP set_term_echo(SEXP s_echo) {
+  return R_NilValue;
+}
+
+SEXP test_single_char(SEXP s_bytes) {
+  error("test_single_char is not supported on Windows");
+  return R_NilValue;
+}
+
+SEXP test_function_key(SEXP s_bytes) {
+  error("test_function_key is not supported on Windows");
   return R_NilValue;
 }
 

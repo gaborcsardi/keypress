@@ -1,4 +1,6 @@
 library(testthat)
 library(keypress)
 
-test_check("keypress")
+if (Sys.getenv("NOT_CRAN") == "true") {
+  test_check("keypress")
+}

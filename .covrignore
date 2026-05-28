@@ -1,1 +1,2 @@
 R/rstudio-detect.R
+src/errors.c

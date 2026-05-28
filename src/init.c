@@ -9,6 +9,8 @@ static const R_CallMethodDef callMethods[]  = {
   {"save_term_status", (DL_FUNC) &save_term_status, 0},
   {"restore_term_status", (DL_FUNC) &restore_term_status, 0},
   {"set_term_echo", (DL_FUNC) &set_term_echo, 1},
+  {"test_single_char", (DL_FUNC) &test_single_char, 1},
+  {"test_function_key", (DL_FUNC) &test_function_key, 1},
   {NULL, NULL, 0}
 };
 
