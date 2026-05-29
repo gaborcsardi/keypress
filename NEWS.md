@@ -1,7 +1,7 @@
 # keypress (development version)
 
-- `keypress()` is now interruptible on Unix and macOS, so you can use
-  Ctrl-C to break out of a blocking key press (#4).
+- `keypress()` is now interruptible on Unix, macOS and Windows, so you can
+  use Ctrl-C to break out of a blocking key press (#4).
 - `keypress()` now supports non-ASCII characters on Windows, including
   characters outside the Basic Multilingual Plane, e.g. emoji. (#6).
 

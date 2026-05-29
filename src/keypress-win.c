@@ -8,6 +8,7 @@ void keypress_win_dummy(void) { }
 #include "keypress.h"
 #include "keypress-internal.h"
 #include <windows.h>
+#include <R_ext/Utils.h>		/* R_CheckUserInterrupt */
 
 static HANDLE console_in, console_out;
 
@@ -60,6 +61,7 @@ SEXP test_function_key(SEXP s_bytes) {
 keypress_key_t getWinChar(int block) {
   INPUT_RECORD rec;
   DWORD count;
+  DWORD waitres;
   char buf[KEYPRESS_UTF8_BUFFER_SIZE + 1] = { 0 };
   WCHAR wbuf[2];
   int wlen;
@@ -68,12 +70,25 @@ keypress_key_t getWinChar(int block) {
      characters outside the BMP (e.g. emoji) arrive as two WCHARs. */
   static WCHAR high_surrogate = 0;
 
-  for (;; Sleep(10)) {
+  for (;;) {
 
     GetNumberOfConsoleInputEvents(console_in, &count);
 
-    if ((count == 0) && (block == NON_BLOCKING)) {
-      return keypress_special(KEYPRESS_NONE);
+    if (count == 0) {
+      if (block == NON_BLOCKING) {
+        return keypress_special(KEYPRESS_NONE);
+      }
+      /* Interruptible wait, the Windows equivalent of poll() on Unix.
+         The console input handle is signalled when input is available.
+         We wait with a 100ms timeout so we can check for an R user
+         interrupt (e.g. Ctrl+C / Esc in RStudio) between waits. */
+      waitres = WaitForSingleObject(console_in, 100);
+      if (waitres == WAIT_TIMEOUT) {
+        R_CheckUserInterrupt();
+        continue;
+      } else if (waitres == WAIT_FAILED) {
+        R_THROW_SYSTEM_ERROR("Cannot wait for console input");
+      }
     }
 
     if (! ReadConsoleInputW(console_in, &rec, 1, &count)) {
