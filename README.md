@@ -34,14 +34,22 @@ You pressed key h
 
 This is unfortunately impossible to do in
 - RStudio,
+- Positron console,
 - R.app (the builtin macOS GUI),
 - RGui (the builtin Windows GUI),
 - Emacs ESS, or
 - if `stdin()` is not a terminal.
 
 In other words, it pretty much only works interactively, in a terminal.
-The terminal can be pretty much any Linux, macOS, or other Unix terminal or
-Windows cmd (also called RTerm in R).
+The terminal can be any Linux, macOS, or other Unix terminal or
+Windows cmd (also called RTerm in R) or Windows terminal.
+
+## Features
+
+- Blocking or non-blocking operation.
+- Interruptible.
+- Read a key with a timeout.
+- UTF-8 support.
 
 ## Keys
 
@@ -55,8 +63,7 @@ Note that not all keys are supported, in particular most of the modifiers
   `ctrl-n`, `ctrl-p`, `ctrl-t`, `ctrl-u`, `ctrl-w`.
 - Keys typically not availale on macOS keyboards: `home`, `end`, `insert`,
   `delete`, `pageup`, `pagedown`.
-- On Linux and macOS Unicode characters are supported, but not (yet) on
-  Windows. Unicode characters are returned UTF-8 encoded.
+- Unicode characters (graphemes) are returned UTF-8 encoded.
 
 ## License
 
