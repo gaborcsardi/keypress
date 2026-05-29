@@ -91,13 +91,23 @@
 <div class="section level2">
 <h2 id="support">Support<a class="anchor" aria-label="anchor" href="#support"></a>
 </h2>
-<p>This is unfortunately impossible to do in - RStudio, - R.app (the builtin macOS GUI), - RGui (the builtin Windows GUI), - Emacs ESS, or - if <code><a href="https://rdrr.io/r/base/showConnections.html" class="external-link">stdin()</a></code> is not a terminal.</p>
-<p>In other words, it pretty much only works interactively, in a terminal. The terminal can be pretty much any Linux, macOS, or other Unix terminal or Windows cmd (also called RTerm in R).</p>
+<p>This is unfortunately impossible to do in - RStudio, - Positron console, - R.app (the builtin macOS GUI), - RGui (the builtin Windows GUI), - Emacs ESS, or - if <code><a href="https://rdrr.io/r/base/showConnections.html" class="external-link">stdin()</a></code> is not a terminal.</p>
+<p>In other words, it pretty much only works interactively, in a terminal. The terminal can be any Linux, macOS, or other Unix terminal or Windows cmd (also called RTerm in R) or Windows terminal.</p>
+</div>
+<div class="section level2">
+<h2 id="features">Features<a class="anchor" aria-label="anchor" href="#features"></a>
+</h2>
+<ul>
+<li>Blocking or non-blocking operation.</li>
+<li>Interruptible.</li>
+<li>Read a key with a timeout.</li>
+<li>UTF-8 support.</li>
+</ul>
 </div>
 <div class="section level2">
 <h2 id="keys">Keys<a class="anchor" aria-label="anchor" href="#keys"></a>
 </h2>
-<p>Note that not all keys are supported, in particular most of the modifiers (alt, shift, etc.) are not. Supported special keys are: - Arrow keys: <code>up</code>, <code>down</code>, <code>right</code>, <code>left</code>. Available on most keyboards. - Function keys: from <code>f1</code> to <code>f12</code>. Available on most keyboards. - Other special keys: <code>enter</code>, <code>backspace</code>, <code>escape</code>, <code>tab</code>. - Some key combinations with the <code>CONTROL</code> key: <code>ctrl-a</code>, <code>ctrl-b</code>, <code>ctrl-c</code>, <code>ctrl-d</code>, <code>ctrl-e</code>, <code>ctrl-f</code>, <code>ctrl-h</code>, <code>ctrl-k</code>, <code>ctrl-l</code>, <code>ctrl-n</code>, <code>ctrl-p</code>, <code>ctrl-t</code>, <code>ctrl-u</code>, <code>ctrl-w</code>. - Keys typically not availale on macOS keyboards: <code>home</code>, <code>end</code>, <code>insert</code>, <code>delete</code>, <code>pageup</code>, <code>pagedown</code>. - On Linux and macOS Unicode characters are supported, but not (yet) on Windows. Unicode characters are returned UTF-8 encoded.</p>
+<p>Note that not all keys are supported, in particular most of the modifiers (alt, shift, etc.) are not. Supported special keys are: - Arrow keys: <code>up</code>, <code>down</code>, <code>right</code>, <code>left</code>. Available on most keyboards. - Function keys: from <code>f1</code> to <code>f12</code>. Available on most keyboards. - Other special keys: <code>enter</code>, <code>backspace</code>, <code>escape</code>, <code>tab</code>. - Some key combinations with the <code>CONTROL</code> key: <code>ctrl-a</code>, <code>ctrl-b</code>, <code>ctrl-c</code>, <code>ctrl-d</code>, <code>ctrl-e</code>, <code>ctrl-f</code>, <code>ctrl-h</code>, <code>ctrl-k</code>, <code>ctrl-l</code>, <code>ctrl-n</code>, <code>ctrl-p</code>, <code>ctrl-t</code>, <code>ctrl-u</code>, <code>ctrl-w</code>. - Keys typically not availale on macOS keyboards: <code>home</code>, <code>end</code>, <code>insert</code>, <code>delete</code>, <code>pageup</code>, <code>pagedown</code>. - Unicode characters (graphemes) are returned UTF-8 encoded.</p>
 </div>
 <div class="section level2">
 <h2 id="license">License<a class="anchor" aria-label="anchor" href="#license"></a>
