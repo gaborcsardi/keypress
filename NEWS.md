@@ -1,5 +1,7 @@
 # keypress (development version)
 
+- `keypress()` gained a `timeout` argument to wait at most a given number
+  of seconds for a key press, returning `NA` if none arrives in time (#5).
 - `keypress()` is now interruptible on Unix, macOS and Windows, so you can
   use Ctrl-C to break out of a blocking key press (#4).
 - `keypress()` now supports non-ASCII characters on Windows, including

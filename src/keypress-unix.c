@@ -14,7 +14,15 @@ void keypress_unix_dummy(void) { }
 #include <fcntl.h>
 #include <poll.h>
 #include <errno.h>
+#include <sys/time.h>
 #include <R_ext/Utils.h>		/* R_CheckUserInterrupt */
+
+/* Milliseconds since some unspecified epoch, used to track timeouts. */
+static double keypress_now_ms(void) {
+  struct timeval tv;
+  gettimeofday(&tv, NULL);
+  return (double) tv.tv_sec * 1000.0 + (double) tv.tv_usec / 1000.0;
+}
 
 keypress_key_t single_char(const char *buf) {
 
@@ -198,7 +206,7 @@ static void keypress_restore(void *data) {
   tcsetattr(0, TCSADRAIN, &st->term);
 }
 
-keypress_key_t keypress_read(int block) {
+keypress_key_t keypress_read_timeout(int block, double timeout) {
 
   char buf[11] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
   struct termios term = { 0 };
@@ -224,10 +232,22 @@ keypress_key_t keypress_read(int block) {
   }
 
   if (block) {
-    /* interruptible read */
+    /* Interruptible read, optionally bounded by a timeout. We poll in
+       chunks of at most 100ms so we can check for an R user interrupt
+       between waits; an infinite timeout (negative or non-finite) just
+       keeps polling forever. */
     struct pollfd pfd = { 0, POLLIN, 0 };
+    int infinite = timeout < 0 || !R_FINITE(timeout);
+    double deadline = infinite ? 0 : keypress_now_ms() + timeout * 1000.0;
     for (;;) {
-      int ret = poll(&pfd, 1, 100);
+      int wait_ms = 100;
+      if (!infinite) {
+        double remaining = deadline - keypress_now_ms();
+        /* Timed out: the registered cleanup restores the terminal. */
+        if (remaining <= 0) return keypress_special(KEYPRESS_NONE);
+        if (remaining < wait_ms) wait_ms = (int) remaining;
+      }
+      int ret = poll(&pfd, 1, wait_ms);
       if (ret > 0) break;
       if (ret < 0 && errno != EINTR) {
         R_THROW_SYSTEM_ERROR("Cannot poll terminal");

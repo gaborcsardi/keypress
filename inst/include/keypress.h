@@ -74,11 +74,12 @@ typedef struct {
 } keypress_key_t;
 
 keypress_key_t keypress_read(int block);
+keypress_key_t keypress_read_timeout(int block, double timeout);
 
 keypress_key_t keypress_special(int key);
 keypress_key_t keypress_utf8(const char *buf);
 
-SEXP keypress(SEXP s_block);
+SEXP keypress(SEXP s_block, SEXP s_timeout);
 
 extern const char *keypress_key_names[KEYPRESS_NAME_SIZE];
 

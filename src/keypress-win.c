@@ -58,10 +58,13 @@ SEXP test_function_key(SEXP s_bytes) {
   return R_NilValue;
 }
 
-keypress_key_t getWinChar(int block) {
+keypress_key_t getWinChar(int block, double timeout) {
   INPUT_RECORD rec;
   DWORD count;
   DWORD waitres;
+  int infinite = timeout < 0 || !R_FINITE(timeout);
+  ULONGLONG deadline =
+    infinite ? 0 : GetTickCount64() + (ULONGLONG)(timeout * 1000.0);
   char buf[KEYPRESS_UTF8_BUFFER_SIZE + 1] = { 0 };
   WCHAR wbuf[2];
   int wlen;
@@ -80,9 +83,17 @@ keypress_key_t getWinChar(int block) {
       }
       /* Interruptible wait, the Windows equivalent of poll() on Unix.
          The console input handle is signalled when input is available.
-         We wait with a 100ms timeout so we can check for an R user
-         interrupt (e.g. Ctrl+C / Esc in RStudio) between waits. */
-      waitres = WaitForSingleObject(console_in, 100);
+         We wait in chunks of at most 100ms so we can check for an R user
+         interrupt (e.g. Ctrl+C / Esc in RStudio) between waits, while
+         honouring the overall timeout (if any). */
+      DWORD wait_ms = 100;
+      if (!infinite) {
+        ULONGLONG now = GetTickCount64();
+        if (now >= deadline) return keypress_special(KEYPRESS_NONE);
+        ULONGLONG remaining = deadline - now;
+        if (remaining < wait_ms) wait_ms = (DWORD) remaining;
+      }
+      waitres = WaitForSingleObject(console_in, wait_ms);
       if (waitres == WAIT_TIMEOUT) {
         R_CheckUserInterrupt();
         continue;
@@ -174,7 +185,7 @@ keypress_key_t getWinChar(int block) {
   }
 }
 
-keypress_key_t keypress_read(int block) {
+keypress_key_t keypress_read_timeout(int block, double timeout) {
 
   keypress_key_t res;
 
@@ -186,7 +197,7 @@ keypress_key_t keypress_read(int block) {
     R_THROW_SYSTEM_ERROR("Cannot query console information");
   }
 
-  res = getWinChar(block);
+  res = getWinChar(block, timeout);
 
   disableRawMode();
 
