@@ -17,8 +17,11 @@ License: MIT + file LICENSE
 URL: https://github.com/gaborcsardi/keypress#readme
 BugReports: https://github.com/gaborcsardi/keypress/issues
 Suggests:
+    callr (>= 3.7.6.9000),
     testthat (>= 3.1.10),
     withr
+Remotes:
+    r-lib/callr
 Config/testthat/edition: 3
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
