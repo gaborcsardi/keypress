@@ -1,5 +1,8 @@
 # keypress (development version)
 
+- `keypress()` now supports non-ASCII characters on Windows, including
+  characters outside the Basic Multilingual Plane, e.g. emoji. (#6).
+
 # keypress 1.3.2
 
 - No changes.

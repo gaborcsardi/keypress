@@ -60,8 +60,13 @@ SEXP test_function_key(SEXP s_bytes) {
 keypress_key_t getWinChar(int block) {
   INPUT_RECORD rec;
   DWORD count;
-  char buf[2] = { 0, 0 };
+  char buf[KEYPRESS_UTF8_BUFFER_SIZE + 1] = { 0 };
+  WCHAR wbuf[2];
+  int wlen;
   int chr;
+  /* Holds a pending UTF-16 high surrogate between two key events, since
+     characters outside the BMP (e.g. emoji) arrive as two WCHARs. */
+  static WCHAR high_surrogate = 0;
 
   for (;; Sleep(10)) {
 
@@ -71,12 +76,12 @@ keypress_key_t getWinChar(int block) {
       return keypress_special(KEYPRESS_NONE);
     }
 
-    if (! ReadConsoleInputA(console_in, &rec, 1, &count)) {
+    if (! ReadConsoleInputW(console_in, &rec, 1, &count)) {
       R_THROW_SYSTEM_ERROR("Cannot read from console");
     }
     if (rec.EventType != KEY_EVENT) continue;
     if (! rec.Event.KeyEvent.bKeyDown) continue;
-    buf[0] = chr = rec.Event.KeyEvent.uChar.AsciiChar;
+    chr = rec.Event.KeyEvent.uChar.UnicodeChar;
 
     switch (rec.Event.KeyEvent.wVirtualKeyCode) {
 
@@ -125,7 +130,28 @@ keypress_key_t getWinChar(int block) {
 	case 21: return keypress_special(KEYPRESS_CTRL_U);
 	case 22: return keypress_special(KEYPRESS_CTRL_W);
 	}
-      } else if (buf[0]) {
+      } else if (chr) {
+	/* Combine surrogate pairs into a single code point. A high
+	   surrogate is buffered until its low surrogate arrives. */
+	if (chr >= 0xD800 && chr <= 0xDBFF) {
+	  high_surrogate = (WCHAR) chr;
+	  continue;
+	}
+	if (chr >= 0xDC00 && chr <= 0xDFFF) {
+	  if (!high_surrogate) continue;   /* lone low surrogate, ignore */
+	  wbuf[0] = high_surrogate;
+	  wbuf[1] = (WCHAR) chr;
+	  wlen = 2;
+	  high_surrogate = 0;
+	} else {
+	  high_surrogate = 0;
+	  wbuf[0] = (WCHAR) chr;
+	  wlen = 1;
+	}
+	count = WideCharToMultiByte(
+	  CP_UTF8, 0, wbuf, wlen, buf, KEYPRESS_UTF8_BUFFER_SIZE, NULL, NULL);
+	if (count == 0) continue;        /* conversion failed, skip */
+	buf[count] = '\0';
 	return keypress_utf8(buf);
       }
     }
