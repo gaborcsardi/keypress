@@ -7,7 +7,7 @@
 
 static const R_CallMethodDef callMethods[]  = {
   CLEANCALL_METHOD_RECORD,
-  {"keypress", (DL_FUNC) &keypress, 1},
+  {"keypress", (DL_FUNC) &keypress, 2},
   {"save_term_status", (DL_FUNC) &save_term_status, 0},
   {"restore_term_status", (DL_FUNC) &restore_term_status, 0},
   {"set_term_echo", (DL_FUNC) &set_term_echo, 1},
@@ -24,4 +24,7 @@ void R_init_keypress(DllInfo *dll) {
 
   R_RegisterCCallable("keypress", "keypress", (DL_FUNC) keypress);
   R_RegisterCCallable("keypress_read", "keypress_read", (DL_FUNC) keypress_read);
+  R_RegisterCCallable(
+    "keypress", "keypress_read_timeout", (DL_FUNC) keypress_read_timeout
+  );
 }
