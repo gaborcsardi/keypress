@@ -32,7 +32,7 @@ keypress <- function(block = TRUE) {
   if (length(block) != 1) {
     stop("'block' must be a logical scalar")
   }
-  ret <- .Call(C_keypress, block)
+  ret <- call_with_cleanup(C_keypress, block)
   if (ret == "none") NA_character_ else ret
 }
 

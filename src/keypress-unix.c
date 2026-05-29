@@ -7,10 +7,14 @@ void keypress_unix_dummy(void) { }
 #include "errors.h"
 #include "keypress.h"
 #include "keypress-internal.h"
+#include "cleancall.h"
 #include <unistd.h>
 #include <termios.h>
 #include <string.h>
 #include <fcntl.h>
+#include <poll.h>
+#include <errno.h>
+#include <R_ext/Utils.h>		/* R_CheckUserInterrupt */
 
 keypress_key_t single_char(const char *buf) {
 
@@ -180,6 +184,20 @@ SEXP set_term_echo(SEXP s_echo) {
   return R_NilValue;
 }
 
+static struct keypress_term_state {
+  struct termios term;
+  int flags;
+  int active;
+} keypress_state = { { 0 }, 0, 0 };
+
+static void keypress_restore(void *data) {
+  struct keypress_term_state *st = data;
+  if (!st->active) return;
+  st->active = 0;
+  fcntl(0, F_SETFL, st->flags);
+  tcsetattr(0, TCSADRAIN, &st->term);
+}
+
 keypress_key_t keypress_read(int block) {
 
   char buf[11] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
@@ -190,9 +208,11 @@ keypress_key_t keypress_read(int block) {
     R_THROW_SYSTEM_ERROR("Cannot query terminal flags");
   }
 
-  tcflag_t term_flags = term.c_lflag;
-  int term_vmin = term.c_cc[VMIN];
-  int term_vtime = term.c_cc[VTIME];
+  /* Original state to restore */
+  keypress_state.term = term;
+  keypress_state.flags = flags;
+  keypress_state.active = 1;
+  r_call_on_exit(keypress_restore, &keypress_state);
 
   term.c_lflag &= ~ICANON;
   term.c_lflag &= ~ECHO;
@@ -203,21 +223,24 @@ keypress_key_t keypress_read(int block) {
     R_THROW_SYSTEM_ERROR("Cannot set canonical mode");
   }
 
-  if (! block) {
+  if (block) {
+    /* interruptible read */
+    struct pollfd pfd = { 0, POLLIN, 0 };
+    for (;;) {
+      int ret = poll(&pfd, 1, 100);
+      if (ret > 0) break;
+      if (ret < 0 && errno != EINTR) {
+        R_THROW_SYSTEM_ERROR("Cannot poll terminal");
+      }
+      R_CheckUserInterrupt();
+    }
+  } else {
     if (fcntl(0, F_SETFL, flags | O_NONBLOCK) == -1) {
       R_THROW_SYSTEM_ERROR("Cannot set terminal to non-blocking");
     }
   }
 
   if (read(0, buf, 1) < 0) {
-    if (fcntl(0, F_SETFL, flags) == -1) {
-      R_THROW_SYSTEM_ERROR("Cannot set terminal flags");
-    }
-    term.c_lflag = term_flags;
-    term.c_cc[VMIN] = term_vmin;
-    term.c_cc[VTIME] = term_vtime;
-    tcsetattr(0, TCSADRAIN, &term);
-
     if (block) {
       R_THROW_SYSTEM_ERROR("Cannot read key");
     } else {
@@ -277,18 +300,6 @@ keypress_key_t keypress_read(int block) {
     if (read(0, &buf[1], 3) < 0) {
       R_THROW_SYSTEM_ERROR("Cannot read from terminal");
     }
-  }
-
-  if (fcntl(0, F_SETFL, flags) == -1) {
-    R_THROW_SYSTEM_ERROR("Cannot set terminal flags");
-  }
-
-  term.c_lflag = term_flags;
-  term.c_cc[VMIN] = term_vmin;
-  term.c_cc[VTIME] = term_vtime;
-
-  if (tcsetattr(0, TCSADRAIN, &term) < 0) {
-    R_THROW_SYSTEM_ERROR("Cannot reset terminal flags");
   }
 
   if (buf[0] == '\033') {
