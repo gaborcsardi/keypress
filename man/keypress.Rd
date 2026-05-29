@@ -31,13 +31,13 @@ The following special keys are supported:
 }
 }
 \examples{
-\dontshow{if (FALSE) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (FALSE) withAutoprint(\{ # examplesIf}
 x <- keypress()
 cat("You pressed key", x, "\n")
 \dontshow{\}) # examplesIf}
 }
 \seealso{
-Other keypress function: 
-\code{\link{has_keypress_support}()}
+Other keypress function:
+\code{\link[=has_keypress_support]{has_keypress_support()}}
 }
 \concept{keypress function}

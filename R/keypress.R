@@ -59,10 +59,6 @@ keypress <- function(block = TRUE) {
 #' @examples
 #' has_keypress_support()
 
-platform_gui <- function() {
-  .Platform$GUI # nocov
-}
-
 has_keypress_support <- function() {
   ## Supported if we have a terminal or RStudio terminal.
   ## Not supported otherwise in RStudio, R.app, Rgui or Emacs
@@ -79,6 +75,10 @@ has_keypress_support <- function() {
       Sys.getenv("EMACS") != "t" &&
       Sys.getenv("TERM") != "dumb"
   }
+}
+
+platform_gui <- function() {
+  .Platform$GUI # nocov
 }
 
 #' Call a function with echo suppressed
